@@ -1,0 +1,11 @@
+{
+    "CustomInstructionsGUID": "34a7b00e5eed8fa4b9fe3d3215ecd5aa",
+    "CheckpointEnabled": false,
+    "GitInstanceTypeValue": 0,
+    "CustomGitPath": "",
+    "CheckpointRetentionWeeks": 2,
+    "PlanExecutionPromptDismissed": false,
+    "CheckpointDiscoveryBannerDismissed": false,
+    "CheckpointDiscoveryUserDisabled": false,
+    "CheckpointDiscoveryFlowStarted": false
+}
