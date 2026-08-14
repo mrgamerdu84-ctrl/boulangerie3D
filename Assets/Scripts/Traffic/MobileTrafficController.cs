@@ -39,11 +39,16 @@ namespace Boulangerie3D.Traffic
             if (discoveredIntersections.Length > 0)
                 intersections = discoveredIntersections;
 
-            // Infer the controlled approach from the nearest real intersection instead of
-            // trusting decorative prefab rotations. This is done once at startup only.
+            CrosswalkPriorityZone[] discoveredCrosswalks =
+                FindObjectsByType<CrosswalkPriorityZone>(FindObjectsSortMode.None);
+            if (discoveredCrosswalks.Length > 0)
+                crosswalks = discoveredCrosswalks;
+
+            // Infer the exact approach and a safe stop line. When a crossing exists at the
+            // junction, the line is placed before its outer edge rather than at the pole.
             for (int i = 0; i < controls.Length; i++)
                 if (controls[i] != null)
-                    controls[i].BindToNearestIntersection(intersections);
+                    controls[i].BindToNearestIntersection(intersections, crosswalks);
 
             vehicles = vehiclePoolRoot != null
                 ? vehiclePoolRoot.GetComponentsInChildren<TrafficVehicleAgent>(true)
@@ -166,7 +171,7 @@ namespace Boulangerie3D.Traffic
                     continue;
 
                 float ahead = control.DistanceAhead(position, forward);
-                if (ahead >= -0.75f && ahead < nearestDistance)
+                if (ahead >= -0.9f && ahead < nearestDistance)
                 {
                     nearest = control;
                     nearestDistance = ahead;
