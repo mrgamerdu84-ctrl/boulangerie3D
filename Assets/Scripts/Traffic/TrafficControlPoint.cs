@@ -8,17 +8,61 @@ namespace Boulangerie3D.Traffic
         TrafficLight
     }
 
+    public enum TrafficLightState
+    {
+        Green,
+        Yellow,
+        Red
+    }
+
     public sealed class TrafficControlPoint : MonoBehaviour
     {
         [SerializeField] private TrafficControlKind kind;
         [SerializeField, Min(1f)] private float detectionDistance = 7f;
         [SerializeField, Min(1f)] private float laneTolerance = 2.75f;
         [SerializeField, Min(2f)] private float greenDuration = 8f;
+        [SerializeField, Min(0.5f)] private float yellowDuration = 2f;
         [SerializeField, Min(2f)] private float redDuration = 8f;
+        [SerializeField, Range(0.5f, 3f)] private float stopHoldDuration = 1f;
         [SerializeField] private float phaseOffset;
 
         public TrafficControlKind Kind => kind;
         public float DetectionDistance => detectionDistance;
+        public float StopHoldDuration => stopHoldDuration;
+
+        public TrafficLightState LightState
+        {
+            get
+            {
+                if (kind != TrafficControlKind.TrafficLight)
+                    return TrafficLightState.Green;
+
+                float cycle = greenDuration + yellowDuration + redDuration;
+                float phase = Mathf.Repeat(Time.time + phaseOffset, cycle);
+                if (phase < greenDuration)
+                    return TrafficLightState.Green;
+                if (phase < greenDuration + yellowDuration)
+                    return TrafficLightState.Yellow;
+                return TrafficLightState.Red;
+            }
+        }
+
+        // Kept for compatibility with existing scene/scripts.
+        public bool IsRed => kind == TrafficControlKind.TrafficLight && LightState == TrafficLightState.Red;
+        public bool IsYellow => kind == TrafficControlKind.TrafficLight && LightState == TrafficLightState.Yellow;
+        public bool IsGreen => kind != TrafficControlKind.TrafficLight || LightState == TrafficLightState.Green;
+
+        public float DistanceAhead(Vector3 position, Vector3 travelDirection)
+        {
+            travelDirection.y = 0f;
+            if (travelDirection.sqrMagnitude < 0.01f)
+                return float.MaxValue;
+
+            travelDirection.Normalize();
+            Vector3 delta = transform.position - position;
+            delta.y = 0f;
+            return Vector3.Dot(delta, travelDirection);
+        }
 
         public bool Affects(Vector3 position, Vector3 travelDirection)
         {
@@ -27,28 +71,17 @@ namespace Boulangerie3D.Traffic
             travelDirection.y = 0f;
             if (travelDirection.sqrMagnitude < 0.01f)
                 return false;
-            travelDirection.Normalize();
 
+            travelDirection.Normalize();
             if (controlForward.sqrMagnitude > 0.01f &&
                 Vector3.Dot(controlForward.normalized, travelDirection) < 0.55f)
                 return false;
 
             Vector3 delta = transform.position - position;
+            delta.y = 0f;
             float ahead = Vector3.Dot(delta, travelDirection);
             float lateral = (delta - travelDirection * ahead).magnitude;
             return ahead >= -0.5f && ahead <= detectionDistance && lateral < laneTolerance;
-        }
-
-        public bool IsRed
-        {
-            get
-            {
-                if (kind != TrafficControlKind.TrafficLight)
-                    return false;
-
-                float cycle = greenDuration + redDuration;
-                return Mathf.Repeat(Time.time + phaseOffset, cycle) >= greenDuration;
-            }
         }
     }
 }
