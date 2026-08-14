@@ -37,11 +37,17 @@ namespace Boulangerie3D.Traffic
                 if (kind != TrafficControlKind.TrafficLight)
                     return TrafficLightState.Green;
 
-                float cycle = greenDuration + yellowDuration + redDuration;
+                // Keep the old green+red total cycle unchanged so existing phaseOffset
+                // values in the Unity scene remain synchronised. Yellow occupies the end
+                // of the previously-authored green phase instead of lengthening the cycle.
+                float effectiveYellow = Mathf.Min(yellowDuration, Mathf.Max(0.5f, greenDuration - 0.5f));
+                float fullGreenEnd = Mathf.Max(0f, greenDuration - effectiveYellow);
+                float cycle = greenDuration + redDuration;
                 float phase = Mathf.Repeat(Time.time + phaseOffset, cycle);
-                if (phase < greenDuration)
+
+                if (phase < fullGreenEnd)
                     return TrafficLightState.Green;
-                if (phase < greenDuration + yellowDuration)
+                if (phase < greenDuration)
                     return TrafficLightState.Yellow;
                 return TrafficLightState.Red;
             }
