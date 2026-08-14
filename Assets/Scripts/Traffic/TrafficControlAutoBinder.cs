@@ -46,15 +46,15 @@ namespace Boulangerie3D.Traffic
                 else stopCandidates.Add(current);
             }
 
-            // Le projet est volontairement repris carrefour par carrefour. Tant qu'il n'y
-            // a qu'un carrefour, les quatre feux visibles doivent tous appartenir au même
-            // groupe. On évite ainsi qu'un ancien objet éloigné influence les voitures.
             List<Transform> activeLights = SelectFirstIntersection(lightCandidates);
             int lightsAdded = 0;
             for (int i = 0; i < activeLights.Count; i++)
             {
                 TrafficControlPoint control = activeLights[i].gameObject.AddComponent<TrafficControlPoint>();
-                control.Configure(TrafficControlKind.TrafficLight, 20f, 5.25f);
+                // La trajectoire des voitures est légèrement décalée par rapport au centre
+                // géométrique de la route. On élargit la tolérance sans mélanger les axes :
+                // TrafficControlPoint vérifie toujours le sens et le côté d'approche.
+                control.Configure(TrafficControlKind.TrafficLight, 24f, 8f);
                 lightsAdded++;
             }
 
@@ -74,8 +74,6 @@ namespace Boulangerie3D.Traffic
             if (candidates.Count <= 4)
                 return candidates;
 
-            // Cherche le groupe de quatre feux dont les distances mutuelles sont les plus
-            // petites. C'est robuste même si les noms des quatre prefabs sont identiques.
             float bestScore = float.MaxValue;
             var best = new List<Transform>(4);
 
