@@ -23,8 +23,6 @@ namespace Boulangerie3D.Traffic
             int lightsAdded = 0;
             int stopsAdded = 0;
 
-            // Process shallow objects first. If a prefab root and one of its children both
-            // contain a traffic keyword, the root gets the control and the child is skipped.
             System.Array.Sort(transforms, CompareDepth);
 
             for (int i = 0; i < transforms.Length; i++)
@@ -39,20 +37,21 @@ namespace Boulangerie3D.Traffic
                 if (!isTrafficLight && !isStop)
                     continue;
 
-                // Route helpers and invisible markers can contain words such as "stop".
-                // Only bind objects that actually have something visible below them.
                 if (current.GetComponentInChildren<Renderer>(true) == null)
                     continue;
 
                 TrafficControlPoint control = current.gameObject.AddComponent<TrafficControlPoint>();
                 if (isTrafficLight)
                 {
-                    control.Configure(TrafficControlKind.TrafficLight, 14f, 5.5f);
+                    // Roadside props can sit several metres away from the lane centre.
+                    // The intersection/approach binding prevents this wider tolerance from
+                    // accidentally controlling the perpendicular road.
+                    control.Configure(TrafficControlKind.TrafficLight, 20f, 9f);
                     lightsAdded++;
                 }
                 else
                 {
-                    control.Configure(TrafficControlKind.Stop, 12f, 5.5f);
+                    control.Configure(TrafficControlKind.Stop, 18f, 9f);
                     stopsAdded++;
                 }
             }
