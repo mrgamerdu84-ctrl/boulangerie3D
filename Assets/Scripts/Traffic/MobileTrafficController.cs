@@ -83,6 +83,10 @@ namespace Boulangerie3D.Traffic
         {
             float nearest = maxDistance;
             Vector3 position = self.transform.position;
+            forward.y = 0f;
+            if (forward.sqrMagnitude < 0.001f)
+                return nearest;
+            forward.Normalize();
 
             for (int i = 0; i < vehicles.Length; i++)
             {
@@ -91,6 +95,7 @@ namespace Boulangerie3D.Traffic
                     continue;
 
                 Vector3 delta = other.transform.position - position;
+                delta.y = 0f;
                 float forwardDistance = Vector3.Dot(delta, forward);
                 if (forwardDistance <= 0f || forwardDistance >= nearest)
                     continue;
@@ -105,6 +110,11 @@ namespace Boulangerie3D.Traffic
 
         public bool CrosswalkRequiresStop(Vector3 position, Vector3 forward, float distance)
         {
+            forward.y = 0f;
+            if (forward.sqrMagnitude < 0.001f)
+                return false;
+            forward.Normalize();
+
             for (int i = 0; i < crosswalks.Length; i++)
             {
                 CrosswalkPriorityZone zone = crosswalks[i];
@@ -112,6 +122,7 @@ namespace Boulangerie3D.Traffic
                     continue;
 
                 Vector3 delta = zone.Bounds.center - position;
+                delta.y = 0f;
                 float ahead = Vector3.Dot(delta, forward);
                 float lateral = (delta - forward * ahead).magnitude;
                 if (ahead > -1f && ahead < distance && lateral < 5f &&
@@ -122,6 +133,8 @@ namespace Boulangerie3D.Traffic
             return false;
         }
 
+        // Returns the nearest STOP, red light or yellow light affecting this lane.
+        // Green lights are deliberately ignored.
         public TrafficControlPoint FindBlockingControl(Vector3 position, Vector3 forward)
         {
             TrafficControlPoint nearest = null;
@@ -130,15 +143,15 @@ namespace Boulangerie3D.Traffic
             for (int i = 0; i < controls.Length; i++)
             {
                 TrafficControlPoint control = controls[i];
-                if (control == null || (control.Kind == TrafficControlKind.TrafficLight && !control.IsRed))
+                if (control == null)
                     continue;
-
+                if (control.Kind == TrafficControlKind.TrafficLight && control.IsGreen)
+                    continue;
                 if (!control.Affects(position, forward))
                     continue;
 
-                Vector3 delta = control.transform.position - position;
-                float ahead = Vector3.Dot(delta, forward);
-                if (ahead < nearestDistance)
+                float ahead = control.DistanceAhead(position, forward);
+                if (ahead >= -0.5f && ahead < nearestDistance)
                 {
                     nearest = control;
                     nearestDistance = ahead;
@@ -148,18 +161,64 @@ namespace Boulangerie3D.Traffic
             return nearest;
         }
 
+        // Call this only after traffic lights, STOP, pedestrians and following distance
+        // have allowed the vehicle to continue. This prevents a waiting car from owning
+        // an intersection while it is still stopped at a control point.
         public bool CanProceedIntersection(TrafficVehicleAgent vehicle, Vector3 position, Vector3 forward, float lookAhead)
         {
-            for (int i=0;i<intersections.Length;i++)
+            forward.y = 0f;
+            if (forward.sqrMagnitude < 0.001f)
+                return true;
+            forward.Normalize();
+
+            TrafficIntersectionReservation nearest = null;
+            float nearestAhead = float.MaxValue;
+
+            for (int i = 0; i < intersections.Length; i++)
             {
-                var zone=intersections[i]; if(zone==null)continue;
-                Vector3 delta=zone.Bounds.center-position; delta.y=0f;
-                float ahead=Vector3.Dot(delta,forward); float lateral=(delta-forward*ahead).magnitude;
-                if (zone.Bounds.Contains(position) || (ahead>=0f && ahead<=lookAhead && lateral<=zone.Bounds.extents.magnitude))
-                    if(!zone.TryReserve(vehicle)) return false;
+                TrafficIntersectionReservation zone = intersections[i];
+                if (zone == null)
+                    continue;
+
+                Bounds bounds = zone.Bounds;
+                if (bounds.Contains(position))
+                {
+                    nearest = zone;
+                    nearestAhead = -0.01f;
+                    break;
+                }
+
+                Vector3 delta = bounds.center - position;
+                delta.y = 0f;
+                float ahead = Vector3.Dot(delta, forward);
+                if (ahead < 0f || ahead > lookAhead)
+                    continue;
+
+                float lateral = (delta - forward * ahead).magnitude;
+                float horizontalRadius = Mathf.Sqrt(bounds.extents.x * bounds.extents.x +
+                                                    bounds.extents.z * bounds.extents.z) + 1f;
+                if (lateral > horizontalRadius || ahead >= nearestAhead)
+                    continue;
+
+                nearest = zone;
+                nearestAhead = ahead;
             }
-            return true;
+
+            return nearest == null || nearest.TryReserve(vehicle);
         }
-        public void UpdateIntersectionReservation(TrafficVehicleAgent vehicle){for(int i=0;i<intersections.Length;i++)if(intersections[i]!=null)intersections[i].UpdateOwner(vehicle);}
+
+        public void UpdateIntersectionReservation(TrafficVehicleAgent vehicle)
+        {
+            for (int i = 0; i < intersections.Length; i++)
+                if (intersections[i] != null)
+                    intersections[i].UpdateOwner(vehicle);
+        }
+
+        public void ReleaseIntersectionReservations(TrafficVehicleAgent vehicle)
+        {
+            for (int i = 0; i < intersections.Length; i++)
+                if (intersections[i] != null)
+                    intersections[i].Release(vehicle);
+        }
     }
 }
