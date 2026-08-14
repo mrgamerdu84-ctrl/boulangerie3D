@@ -44,8 +44,6 @@ namespace Boulangerie3D.Traffic
             cachedBody.useGravity = false;
             cachedBody.interpolation = RigidbodyInterpolation.None;
 
-            // Slightly stronger defaults for the mobile traffic simulation. Existing
-            // deliberately stronger Inspector values are preserved.
             if (braking <= 8.01f)
                 braking = 10f;
             if (safetyDistance <= 7.01f)
@@ -108,24 +106,26 @@ namespace Boulangerie3D.Traffic
 
             TrafficControlPoint detectedControl = controller.FindBlockingControl(transform.position, forward);
 
-            // Once a red/yellow light has been detected in front of the vehicle, keep
-            // tracking that exact light while waiting. This prevents a route waypoint or
-            // a small steering change near the stop line from making the light disappear
-            // for one frame and allowing the car to run the red.
+            // Hold a real red/yellow affecting this approach so a small waypoint steering
+            // change cannot lose it for one frame.
             if (detectedControl != null && detectedControl.Kind == TrafficControlKind.TrafficLight)
             {
                 float detectedAhead = detectedControl.DistanceAhead(transform.position, forward);
-                if (detectedAhead >= -0.25f && !detectedControl.IsGreen)
+                if (detectedAhead >= -0.2f && !detectedControl.IsGreen)
                     heldTrafficLight = detectedControl;
             }
 
             if (heldTrafficLight != null)
             {
                 float heldAhead = heldTrafficLight.DistanceAhead(transform.position, forward);
+                bool stillAffectsLane = heldTrafficLight.Affects(transform.position, forward);
 
-                // Green releases the vehicle immediately. If the vehicle is already well
-                // beyond the line, also release so it never brakes inside the junction.
-                if (heldTrafficLight.IsGreen || heldAhead < -1.25f)
+                // Green or passing the real stop line releases immediately. A light that is
+                // no longer on this lane is also released while still comfortably upstream;
+                // this prevents a neighbouring red from trapping the car.
+                if (heldTrafficLight.IsGreen ||
+                    heldAhead < -0.9f ||
+                    (!stillAffectsLane && heldAhead > 2f))
                 {
                     heldTrafficLight = null;
                 }
@@ -192,8 +192,6 @@ namespace Boulangerie3D.Traffic
             bool hardBlocked = followingBlocked || obstacleBlocked || pedestrianBlocked;
             bool intersectionBlocked = false;
 
-            // A vehicle waiting at a light/STOP cannot reserve the junction. The
-            // reservation is attempted only after all higher-priority rules allow travel.
             if (!hardBlocked && !controlRequiresStop)
             {
                 intersectionBlocked = !controller.CanProceedIntersection(
@@ -206,13 +204,12 @@ namespace Boulangerie3D.Traffic
 
             if (controlRequiresStop)
             {
-                // Progressive braking to zero before the authored control point.
+                // DistanceAhead now targets a real stop line before the crosswalk whenever
+                // the junction has one, rather than the decorative traffic-light pole.
                 float remaining = Mathf.Max(0f, controlDistance - stopLineBuffer);
                 float approachSpeed = Mathf.Sqrt(2f * Mathf.Max(0.1f, braking) * remaining);
                 desiredSpeed = Mathf.Min(desiredSpeed, approachSpeed);
 
-                // Inside the final metre, force a full stop instead of allowing tiny
-                // numerical movements that can creep the car through a red light.
                 if (remaining <= 0.08f)
                     desiredSpeed = 0f;
             }
