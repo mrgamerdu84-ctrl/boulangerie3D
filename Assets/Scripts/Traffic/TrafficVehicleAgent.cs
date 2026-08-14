@@ -126,13 +126,9 @@ namespace Boulangerie3D.Traffic
             {
                 float heldAhead = heldTrafficLight.DistanceAhead(transform.position, forward);
                 bool stillAffectsLane = heldTrafficLight.Affects(transform.position, forward);
-
-                // A signal releases after the real stop line has been cleared. Green also
-                // releases it immediately. Upstream, release a neighbouring light that no
-                // longer belongs to this lane.
-                if (heldTrafficLight.IsGreen ||
-                    heldAhead < -0.9f ||
-                    (!stillAffectsLane && heldAhead > 2f))
+                // A light is associated with a single approach.  As soon as the route
+                // changes direction through the junction it cannot keep braking this car.
+                if (heldTrafficLight.IsGreen || heldAhead < -0.9f || !stillAffectsLane)
                 {
                     if (committedTrafficLight == heldTrafficLight && heldAhead < -0.9f)
                         committedTrafficLight = null;

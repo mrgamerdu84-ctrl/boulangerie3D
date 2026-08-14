@@ -11561,7 +11561,7 @@ Transform:
   m_GameObject: {fileID: 290376282}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -29.7, y: 1.12, z: -22.3}
+  m_LocalPosition: {x: -29.7, y: 1.12, z: -20.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13085,6 +13085,9 @@ MonoBehaviour:
   braking: 8
   safetyDistance: 7
   turnSpeed: 7
+  stopLineBuffer: 0.75
+  yellowSafetyMargin: 0.35
+  intersectionLookAhead: 5
 --- !u!65 &325446315
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -16648,9 +16651,14 @@ MonoBehaviour:
   kind: 1
   detectionDistance: 10
   laneTolerance: 5
+  trafficAxis: 0
   greenDuration: 8
-  redDuration: 8
-  phaseOffset: 0
+  yellowDuration: 3
+  allRedDuration: 1
+  stopHoldDuration: 1
+  redRenderers: []
+  yellowRenderers: []
+  greenRenderers: []
 --- !u!1 &419760354
 GameObject:
   m_ObjectHideFlags: 0
@@ -24197,6 +24205,8 @@ Transform:
   - {fileID: 1233282276}
   - {fileID: 1905346156}
   - {fileID: 290376283}
+  - {fileID: 1603203981}
+  - {fileID: 2133906498}
   m_Father: {fileID: 2043293698}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &633223026
@@ -24222,6 +24232,8 @@ MonoBehaviour:
   - {fileID: 1233282276}
   - {fileID: 1905346156}
   - {fileID: 290376283}
+  - {fileID: 1603203981}
+  - {fileID: 2133906498}
 --- !u!1 &634555226
 GameObject:
   m_ObjectHideFlags: 0
@@ -30307,6 +30319,8 @@ Transform:
   - {fileID: 735211326}
   - {fileID: 1936878010}
   - {fileID: 1355668653}
+  - {fileID: 1024004261}
+  - {fileID: 1676646780}
   - {fileID: 129005514}
   - {fileID: 435691547}
   - {fileID: 692145088}
@@ -30332,6 +30346,8 @@ MonoBehaviour:
   - {fileID: 735211326}
   - {fileID: 1936878010}
   - {fileID: 1355668653}
+  - {fileID: 1024004261}
+  - {fileID: 1676646780}
   - {fileID: 129005514}
   - {fileID: 435691547}
   - {fileID: 692145088}
@@ -30627,6 +30643,9 @@ MonoBehaviour:
   braking: 8
   safetyDistance: 7
   turnSpeed: 7
+  stopLineBuffer: 0.75
+  yellowSafetyMargin: 0.35
+  intersectionLookAhead: 5
 --- !u!65 &806916910
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -36985,6 +37004,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1023023602}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1024004260
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1024004261}
+  m_Layer: 0
+  m_Name: WP_FirstIntersection_Apex
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1024004261
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1024004260}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -24.2, y: 1.12, z: -17.75}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 802708402}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1028043170
 GameObject:
   m_ObjectHideFlags: 0
@@ -47921,7 +47971,7 @@ Transform:
   m_GameObject: {fileID: 1355668652}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -24.7, y: 1.12, z: -17.3}
+  m_LocalPosition: {x: -23.1, y: 1.12, z: -17.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -56482,6 +56532,9 @@ MonoBehaviour:
   braking: 8
   safetyDistance: 7
   turnSpeed: 7
+  stopLineBuffer: 0.75
+  yellowSafetyMargin: 0.35
+  intersectionLookAhead: 5
 --- !u!65 &1591413818
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -57038,6 +57091,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1101490411}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1603203980
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1603203981}
+  m_Layer: 0
+  m_Name: WP_FirstIntersection_Apex
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1603203981
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1603203980}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -30.15, y: 1.12, z: -21.85}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 633223025}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1603631440
 PrefabInstance:
@@ -59340,6 +59424,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1676273570}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1676646779
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1676646780}
+  m_Layer: 0
+  m_Name: WP_FirstIntersection_Exit
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1676646780
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1676646779}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -24.7, y: 1.12, z: -19}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 802708402}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1679208256
 GameObject:
   m_ObjectHideFlags: 0
@@ -68692,6 +68807,9 @@ MonoBehaviour:
   braking: 8
   safetyDistance: 7
   turnSpeed: 7
+  stopLineBuffer: 0.75
+  yellowSafetyMargin: 0.35
+  intersectionLookAhead: 5
 --- !u!65 &1887579635
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -75706,9 +75824,14 @@ MonoBehaviour:
   kind: 0
   detectionDistance: 10
   laneTolerance: 5
+  trafficAxis: 0
   greenDuration: 8
-  redDuration: 8
-  phaseOffset: 0
+  yellowDuration: 3
+  allRedDuration: 1
+  stopHoldDuration: 1
+  redRenderers: []
+  yellowRenderers: []
+  greenRenderers: []
 --- !u!1 &2082308993
 GameObject:
   m_ObjectHideFlags: 0
@@ -76860,6 +76983,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2129281709}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &2133906497
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2133906498}
+  m_Layer: 0
+  m_Name: WP_FirstIntersection_Exit
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2133906498
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2133906497}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -31.4, y: 1.12, z: -22.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 633223025}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2137924581
 GameObject:
   m_ObjectHideFlags: 0
