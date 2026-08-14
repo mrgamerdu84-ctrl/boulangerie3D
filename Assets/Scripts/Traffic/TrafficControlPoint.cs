@@ -49,14 +49,20 @@ namespace Boulangerie3D.Traffic
         private TrafficLightState lastVisualState;
         private bool visualStateInitialized;
 
+        // Runtime information inferred from the nearest authored intersection. This makes
+        // traffic controls independent from the sometimes arbitrary local rotation of a
+        // decorative prefab and lets roadside signs control the correct approach lane.
+        private bool hasRuntimeIntersection;
+        private Vector3 runtimeIntersectionCenter;
+        private TrafficLightAxis runtimeAxis = TrafficLightAxis.Auto;
+        private int runtimeApproachSign;
+
         public TrafficControlKind Kind => kind;
         public float DetectionDistance => detectionDistance;
         public float StopHoldDuration => stopHoldDuration;
 
         private void Awake()
         {
-            // Upgrade the old fast default values without overwriting any deliberately
-            // longer timing already authored in the Inspector.
             if (greenDuration <= 8.01f)
                 greenDuration = 12f;
             if (yellowDuration <= 2.01f)
@@ -93,6 +99,63 @@ namespace Boulangerie3D.Traffic
             ApplyVisualState(true);
         }
 
+        public void BindToNearestIntersection(TrafficIntersectionReservation[] intersections)
+        {
+            hasRuntimeIntersection = false;
+            runtimeAxis = TrafficLightAxis.Auto;
+            runtimeApproachSign = 0;
+
+            if (intersections == null || intersections.Length == 0)
+                return;
+
+            Vector3 position = transform.position;
+            position.y = 0f;
+            float nearestSqr = 35f * 35f;
+            Vector3 nearestCenter = Vector3.zero;
+            bool found = false;
+
+            for (int i = 0; i < intersections.Length; i++)
+            {
+                TrafficIntersectionReservation intersection = intersections[i];
+                if (intersection == null)
+                    continue;
+
+                Vector3 center = intersection.Bounds.center;
+                center.y = 0f;
+                float sqr = (center - position).sqrMagnitude;
+                if (sqr >= nearestSqr)
+                    continue;
+
+                nearestSqr = sqr;
+                nearestCenter = center;
+                found = true;
+            }
+
+            if (!found)
+                return;
+
+            Vector3 fromCenter = position - nearestCenter;
+            if (fromCenter.sqrMagnitude < 0.25f)
+                return;
+
+            hasRuntimeIntersection = true;
+            runtimeIntersectionCenter = nearestCenter;
+
+            if (Mathf.Abs(fromCenter.x) >= Mathf.Abs(fromCenter.z))
+            {
+                runtimeAxis = TrafficLightAxis.X;
+                runtimeApproachSign = fromCenter.x >= 0f ? 1 : -1;
+            }
+            else
+            {
+                runtimeAxis = TrafficLightAxis.Z;
+                runtimeApproachSign = fromCenter.z >= 0f ? 1 : -1;
+            }
+
+            // The runtime axis can change the current visible phase, so refresh the lamps.
+            ApplyVisualState(true);
+        }
+
         public TrafficLightState LightState
         {
             get
@@ -100,9 +163,6 @@ namespace Boulangerie3D.Traffic
                 if (kind != TrafficControlKind.TrafficLight)
                     return TrafficLightState.Green;
 
-                // One shared city-wide clock keeps perpendicular approaches mutually
-                // exclusive. X-facing and Z-facing roads never receive green together.
-                // Sequence: X green -> X yellow -> all red -> Z green -> Z yellow -> all red.
                 float green = Mathf.Max(6f, greenDuration);
                 float yellow = Mathf.Max(1.5f, yellowDuration);
                 float clearance = Mathf.Clamp(allRedDuration, 0.5f, 3f);
@@ -150,29 +210,55 @@ namespace Boulangerie3D.Traffic
 
         public bool Affects(Vector3 position, Vector3 travelDirection)
         {
-            Vector3 controlForward = transform.forward;
-            controlForward.y = 0f;
             travelDirection.y = 0f;
             if (travelDirection.sqrMagnitude < 0.01f)
                 return false;
-
             travelDirection.Normalize();
 
-            // Some authored STOP/light objects face toward approaching traffic while
-            // others face in the same direction as traffic. Accept both conventions.
-            if (controlForward.sqrMagnitude > 0.01f &&
-                Mathf.Abs(Vector3.Dot(controlForward.normalized, travelDirection)) < 0.55f)
-                return false;
+            if (hasRuntimeIntersection)
+            {
+                TrafficLightAxis travelAxis = Mathf.Abs(travelDirection.x) >= Mathf.Abs(travelDirection.z)
+                    ? TrafficLightAxis.X
+                    : TrafficLightAxis.Z;
+
+                if (travelAxis != ResolveAxis())
+                    return false;
+
+                Vector3 outward = ResolveAxis() == TrafficLightAxis.X
+                    ? new Vector3(runtimeApproachSign, 0f, 0f)
+                    : new Vector3(0f, 0f, runtimeApproachSign);
+
+                // Only the approach travelling toward this intersection is controlled.
+                // This rejects the opposite-direction sign/light on the far side.
+                if (Vector3.Dot(travelDirection, outward) > -0.25f)
+                    return false;
+
+                Vector3 fromIntersection = position - runtimeIntersectionCenter;
+                fromIntersection.y = 0f;
+                if (Vector3.Dot(fromIntersection, outward) < -1.5f)
+                    return false;
+            }
+            else
+            {
+                // Fallback for isolated controls that are not close to a reservation zone.
+                Vector3 controlForward = transform.forward;
+                controlForward.y = 0f;
+                if (controlForward.sqrMagnitude > 0.01f &&
+                    Mathf.Abs(Vector3.Dot(controlForward.normalized, travelDirection)) < 0.45f)
+                    return false;
+            }
 
             Vector3 delta = transform.position - position;
             delta.y = 0f;
             float ahead = Vector3.Dot(delta, travelDirection);
             float lateral = (delta - travelDirection * ahead).magnitude;
-            return ahead >= -0.5f && ahead <= detectionDistance && lateral < laneTolerance;
+            return ahead >= -0.75f && ahead <= detectionDistance && lateral <= laneTolerance;
         }
 
         private TrafficLightAxis ResolveAxis()
         {
+            if (runtimeAxis != TrafficLightAxis.Auto)
+                return runtimeAxis;
             if (trafficAxis != TrafficLightAxis.Auto)
                 return trafficAxis;
 
@@ -181,7 +267,6 @@ namespace Boulangerie3D.Traffic
             if (forward.sqrMagnitude < 0.001f)
                 return TrafficLightAxis.Z;
 
-            // Opposite directions (+X/-X or +Z/-Z) belong to the same traffic phase.
             return Mathf.Abs(forward.x) >= Mathf.Abs(forward.z)
                 ? TrafficLightAxis.X
                 : TrafficLightAxis.Z;
