@@ -4,10 +4,8 @@ using System.Collections.Generic;
 namespace Boulangerie3D.Traffic
 {
     /// <summary>
-    /// Raccorde uniquement les vrais accessoires de circulation visibles à la simulation.
-    /// Pour les feux, on travaille carrefour par carrefour : le groupe de quatre feux le
-    /// plus compact est traité comme un seul carrefour et chaque feu reçoit une zone
-    /// d'approche cohérente avec le centre du groupe.
+    /// Raccorde tous les vrais accessoires de circulation visibles à la simulation.
+    /// Chaque feu est ensuite associé par TrafficControlPoint à l'intersection la plus proche.
     /// </summary>
     public static class TrafficControlAutoBinder
     {
@@ -46,14 +44,18 @@ namespace Boulangerie3D.Traffic
                 else stopCandidates.Add(current);
             }
 
-            List<Transform> activeLights = SelectFirstIntersection(lightCandidates);
+            // Plusieurs carrefours existent dans la ville : on ne limite plus le raccordement
+            // au premier groupe de quatre feux. Tous les feux visibles doivent fonctionner.
             int lightsAdded = 0;
-            for (int i = 0; i < activeLights.Count; i++)
+            for (int i = 0; i < lightCandidates.Count; i++)
             {
-                TrafficControlPoint control = activeLights[i].gameObject.AddComponent<TrafficControlPoint>();
-                // La trajectoire des voitures est légèrement décalée par rapport au centre
-                // géométrique de la route. On élargit la tolérance sans mélanger les axes :
-                // TrafficControlPoint vérifie toujours le sens et le côté d'approche.
+                Transform light = lightCandidates[i];
+                if (light == null || light.GetComponent<TrafficControlPoint>() != null)
+                    continue;
+
+                TrafficControlPoint control = light.gameObject.AddComponent<TrafficControlPoint>();
+                // Tolérance assez large pour absorber les petits décalages de waypoint,
+                // mais TrafficControlPoint filtre ensuite l'axe et le côté d'approche.
                 control.Configure(TrafficControlKind.TrafficLight, 24f, 8f);
                 lightsAdded++;
             }
@@ -61,49 +63,16 @@ namespace Boulangerie3D.Traffic
             int stopsAdded = 0;
             for (int i = 0; i < stopCandidates.Count; i++)
             {
-                TrafficControlPoint control = stopCandidates[i].gameObject.AddComponent<TrafficControlPoint>();
+                Transform stop = stopCandidates[i];
+                if (stop == null || stop.GetComponent<TrafficControlPoint>() != null)
+                    continue;
+
+                TrafficControlPoint control = stop.gameObject.AddComponent<TrafficControlPoint>();
                 control.Configure(TrafficControlKind.Stop, 16f, 4.5f);
                 stopsAdded++;
             }
 
-            Debug.Log($"[MobileTraffic] Premier carrefour : {lightsAdded} feu(x) raccordé(s), {stopsAdded} STOP raccordé(s)." );
-        }
-
-        private static List<Transform> SelectFirstIntersection(List<Transform> candidates)
-        {
-            if (candidates.Count <= 4)
-                return candidates;
-
-            float bestScore = float.MaxValue;
-            var best = new List<Transform>(4);
-
-            for (int anchor = 0; anchor < candidates.Count; anchor++)
-            {
-                Transform a = candidates[anchor];
-                var ordered = new List<Transform>(candidates);
-                ordered.Sort((x, y) => HorizontalSqr(a.position, x.position).CompareTo(HorizontalSqr(a.position, y.position)));
-                if (ordered.Count < 4) continue;
-
-                float score = 0f;
-                Vector3 center = Vector3.zero;
-                for (int i = 0; i < 4; i++) center += ordered[i].position;
-                center /= 4f;
-                for (int i = 0; i < 4; i++) score += HorizontalSqr(center, ordered[i].position);
-
-                if (score >= bestScore) continue;
-                bestScore = score;
-                best.Clear();
-                for (int i = 0; i < 4; i++) best.Add(ordered[i]);
-            }
-
-            return best.Count == 4 ? best : candidates;
-        }
-
-        private static float HorizontalSqr(Vector3 a, Vector3 b)
-        {
-            float x = a.x - b.x;
-            float z = a.z - b.z;
-            return x * x + z * z;
+            Debug.Log($"[MobileTraffic] Tous carrefours : {lightsAdded} feu(x) raccordé(s), {stopsAdded} STOP raccordé(s)." );
         }
 
         private static bool LooksLikeTrafficLight(string name)
