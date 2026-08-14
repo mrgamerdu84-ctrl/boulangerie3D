@@ -13,7 +13,7 @@ namespace Boulangerie3D.Traffic
         [SerializeField, Min(1f)] private float turnSpeed = 7f;
 
         [Header("Traffic controls")]
-        [SerializeField, Range(0.4f, 3f)] private float stopLineBuffer = 0.75f;
+        [SerializeField, Range(0.4f, 4f)] private float stopLineBuffer = 0.75f;
         [SerializeField, Range(0.1f, 1f)] private float yellowSafetyMargin = 0.35f;
         [SerializeField, Min(2f)] private float intersectionLookAhead = 5f;
 
@@ -45,26 +45,20 @@ namespace Boulangerie3D.Traffic
             cachedBody.useGravity = false;
             cachedBody.interpolation = RigidbodyInterpolation.None;
 
-            if (braking <= 8.01f)
-                braking = 10f;
-            if (safetyDistance <= 7.01f)
-                safetyDistance = 8f;
+            if (braking <= 8.01f) braking = 10f;
+            if (safetyDistance <= 7.01f) safetyDistance = 8f;
 
-            // Old scenes used 0.75 m, which can leave the nose of a car on the stop line.
-            // Keep a larger centre-to-line margin so vehicles visibly respect the light.
-            if (stopLineBuffer < 1.6f)
-                stopLineBuffer = 1.6f;
+            // Le centre de la voiture reste désormais franchement avant les bandes du passage
+            // clouté. Avec 1,6 m, l'avant du véhicule pouvait encore se retrouver dessus.
+            if (stopLineBuffer < 2.8f) stopLineBuffer = 2.8f;
         }
 
         public void Initialize(MobileTrafficController owner, TrafficRoutePath assignedRoute, int startIndex)
         {
-            if (controller != null)
-                controller.ReleaseIntersectionReservations(this);
-
+            if (controller != null) controller.ReleaseIntersectionReservations(this);
             controller = owner;
             route = assignedRoute;
-            if (route == null || route.Count < 2)
-                return;
+            if (route == null || route.Count < 2) return;
 
             targetIndex = Mathf.Abs(startIndex) % route.Count;
             SetPosition(route.GetPoint(targetIndex));
@@ -87,14 +81,19 @@ namespace Boulangerie3D.Traffic
 
         private void Update()
         {
-            if (controller == null || route == null || route.Count < 2)
-                return;
+            if (controller == null || route == null || route.Count < 2) return;
 
             Vector3 target = route.GetPoint(targetIndex);
             Vector3 planar = target - transform.position;
             planar.y = 0f;
-            if (planar.magnitude < 0.45f)
+
+            // Avant, on passait au waypoint suivant à 45 cm du point. Dans un virage à 90°,
+            // cela faisait couper le coin et la voiture se retrouvait sur la mauvaise voie.
+            // On oblige maintenant la voiture à atteindre presque exactement le point de virage.
+            const float waypointArrivalDistance = 0.10f;
+            if (planar.magnitude < waypointArrivalDistance)
             {
+                SetPosition(new Vector3(target.x, target.y, target.z));
                 targetIndex = (targetIndex + 1) % route.Count;
                 target = route.GetPoint(targetIndex);
                 planar = target - transform.position;
@@ -103,8 +102,7 @@ namespace Boulangerie3D.Traffic
 
             Vector3 forward = planar.sqrMagnitude > 0.001f ? planar.normalized : transform.forward;
             forward.y = 0f;
-            if (forward.sqrMagnitude > 0.001f)
-                forward.Normalize();
+            if (forward.sqrMagnitude > 0.001f) forward.Normalize();
 
             float leadDistance = controller.GetLeadVehicleDistance(this, forward, safetyDistance);
             bool followingBlocked = leadDistance < safetyDistance;
@@ -112,9 +110,6 @@ namespace Boulangerie3D.Traffic
             bool pedestrianBlocked = controller.CrosswalkRequiresStop(transform.position, forward, 9f);
 
             TrafficControlPoint detectedControl = controller.FindBlockingControl(transform.position, forward);
-
-            // Keep tracking the non-green signal for this approach. This avoids one-frame
-            // losses when waypoint steering slightly changes the vehicle direction.
             if (detectedControl != null && detectedControl.Kind == TrafficControlKind.TrafficLight)
             {
                 float detectedAhead = detectedControl.DistanceAhead(transform.position, forward);
@@ -126,35 +121,23 @@ namespace Boulangerie3D.Traffic
             {
                 float heldAhead = heldTrafficLight.DistanceAhead(transform.position, forward);
                 bool stillAffectsLane = heldTrafficLight.Affects(transform.position, forward);
-
-                // A signal releases after the real stop line has been cleared. Green also
-                // releases it immediately. Upstream, release a neighbouring light that no
-                // longer belongs to this lane.
-                if (heldTrafficLight.IsGreen ||
-                    heldAhead < -0.9f ||
-                    (!stillAffectsLane && heldAhead > 2f))
+                if (heldTrafficLight.IsGreen || heldAhead < -0.9f || (!stillAffectsLane && heldAhead > 2f))
                 {
                     if (committedTrafficLight == heldTrafficLight && heldAhead < -0.9f)
                         committedTrafficLight = null;
                     heldTrafficLight = null;
                 }
-                else
-                {
-                    detectedControl = heldTrafficLight;
-                }
+                else detectedControl = heldTrafficLight;
             }
 
             TrafficControlPoint control = detectedControl;
             bool controlRequiresStop = false;
             float controlDistance = float.MaxValue;
-
-            if (control != null && control.Kind == TrafficControlKind.Stop && control == servedStop)
-                control = null;
+            if (control != null && control.Kind == TrafficControlKind.Stop && control == servedStop) control = null;
 
             if (control != null)
             {
                 controlDistance = Mathf.Max(0f, control.DistanceAhead(transform.position, forward));
-
                 if (control.Kind == TrafficControlKind.Stop)
                 {
                     controlRequiresStop = true;
@@ -169,90 +152,57 @@ namespace Boulangerie3D.Traffic
                             controlRequiresStop = false;
                         }
                     }
-                    else
-                    {
-                        stopTimer = 0f;
-                    }
+                    else stopTimer = 0f;
                 }
                 else
                 {
                     stopTimer = 0f;
-
-                    // Once the car has legally committed at yellow because there was no safe
-                    // stopping distance, let it clear the line even if the phase becomes red.
-                    // Without this latch a car can brake abruptly halfway through its decision.
                     bool committedToThisLight = committedTrafficLight == control;
                     if (!committedToThisLight)
                     {
-                        if (control.LightState == TrafficLightState.Red)
-                        {
-                            controlRequiresStop = true;
-                        }
+                        if (control.LightState == TrafficLightState.Red) controlRequiresStop = true;
                         else if (control.LightState == TrafficLightState.Yellow)
                         {
                             float stoppingDistance = speed * speed / (2f * Mathf.Max(0.1f, braking));
                             bool alreadyNearlyStopped = speed < 0.5f;
-                            bool enoughRoomToStop = controlDistance >
-                                stoppingDistance + stopLineBuffer + yellowSafetyMargin;
-
+                            bool enoughRoomToStop = controlDistance > stoppingDistance + stopLineBuffer + yellowSafetyMargin;
                             controlRequiresStop = alreadyNearlyStopped || enoughRoomToStop;
-                            if (!controlRequiresStop)
-                                committedTrafficLight = control;
+                            if (!controlRequiresStop) committedTrafficLight = control;
                         }
                     }
                 }
             }
-            else
-            {
-                stopTimer = 0f;
-            }
+            else stopTimer = 0f;
 
-            if (servedStop != null && Vector3.Distance(transform.position, servedStop.transform.position) > 10f)
-                servedStop = null;
+            if (servedStop != null && Vector3.Distance(transform.position, servedStop.transform.position) > 10f) servedStop = null;
 
             bool hardBlocked = followingBlocked || obstacleBlocked || pedestrianBlocked;
-
-            // If a committed vehicle is forced to stop before the line (pedestrian, obstacle,
-            // or queue), cancel the yellow commitment. On the next frame a red light will be
-            // obeyed normally instead of allowing a delayed entry into the junction.
             if (hardBlocked && committedTrafficLight != null)
             {
                 float committedAhead = committedTrafficLight.DistanceAhead(transform.position, forward);
-                if (committedAhead > stopLineBuffer)
-                    committedTrafficLight = null;
+                if (committedAhead > stopLineBuffer) committedTrafficLight = null;
             }
 
             bool intersectionBlocked = false;
             if (!hardBlocked && !controlRequiresStop)
-            {
-                intersectionBlocked = !controller.CanProceedIntersection(
-                    this, transform.position, forward, intersectionLookAhead);
-            }
+                intersectionBlocked = !controller.CanProceedIntersection(this, transform.position, forward, intersectionLookAhead);
 
             float desiredSpeed = cruiseSpeed;
-            if (hardBlocked || intersectionBlocked)
-                desiredSpeed = 0f;
+            if (hardBlocked || intersectionBlocked) desiredSpeed = 0f;
 
             if (controlRequiresStop)
             {
-                // Brake to the actual stop line, with enough centre-to-line clearance that
-                // the front of the vehicle stays visibly behind the crossing.
                 float remaining = Mathf.Max(0f, controlDistance - stopLineBuffer);
                 float approachSpeed = Mathf.Sqrt(2f * Mathf.Max(0.1f, braking) * remaining);
                 desiredSpeed = Mathf.Min(desiredSpeed, approachSpeed);
-
-                if (remaining <= 0.08f)
-                    desiredSpeed = 0f;
+                if (remaining <= 0.08f) desiredSpeed = 0f;
             }
 
             float rate = desiredSpeed < speed ? braking : acceleration;
             speed = Mathf.MoveTowards(speed, desiredSpeed, rate * Time.deltaTime);
 
             if (forward.sqrMagnitude > 0.01f)
-                transform.rotation = Quaternion.Slerp(
-                    transform.rotation,
-                    Quaternion.LookRotation(forward, Vector3.up),
-                    turnSpeed * Time.deltaTime);
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(forward, Vector3.up), turnSpeed * Time.deltaTime);
 
             float travel = Mathf.Min(speed * Time.deltaTime, planar.magnitude);
             if (controlRequiresStop)
@@ -275,47 +225,25 @@ namespace Boulangerie3D.Traffic
 
         private bool HasObstacleAhead(Vector3 forward)
         {
-            if (forward.sqrMagnitude < 0.001f)
-                return false;
-
+            if (forward.sqrMagnitude < 0.001f) return false;
             Vector3 origin = transform.position + forward * 2.1f + Vector3.up * 0.85f;
-            int count = Physics.SphereCastNonAlloc(
-                origin,
-                0.45f,
-                forward,
-                obstacleHits,
-                Mathf.Max(0.5f, safetyDistance - 2.1f),
-                ~0,
-                QueryTriggerInteraction.Ignore);
-
+            int count = Physics.SphereCastNonAlloc(origin, 0.45f, forward, obstacleHits, Mathf.Max(0.5f, safetyDistance - 2.1f), ~0, QueryTriggerInteraction.Ignore);
             for (int i = 0; i < count; i++)
             {
                 Collider hit = obstacleHits[i].collider;
-                if (hit == null || hit.transform.IsChildOf(transform))
-                    continue;
-
-                if (hit.GetComponentInParent<CrosswalkPriorityZone>() != null)
-                    continue;
-
-                if (hit.bounds.max.y < origin.y - 0.25f)
-                    continue;
-
+                if (hit == null || hit.transform.IsChildOf(transform)) continue;
+                if (hit.GetComponentInParent<CrosswalkPriorityZone>() != null) continue;
+                if (hit.bounds.max.y < origin.y - 0.25f) continue;
                 string objectName = hit.name.ToLowerInvariant();
-                if (objectName.Contains("road") || objectName.Contains("junction") ||
-                    objectName.Contains("crosswalk") || objectName.Contains("sidewalk") ||
-                    objectName.Contains("trottoir") || objectName.Contains("curb"))
-                    continue;
-
+                if (objectName.Contains("road") || objectName.Contains("junction") || objectName.Contains("crosswalk") || objectName.Contains("sidewalk") || objectName.Contains("trottoir") || objectName.Contains("curb")) continue;
                 return true;
             }
-
             return false;
         }
 
         private void OnDisable()
         {
-            if (controller != null)
-                controller.ReleaseIntersectionReservations(this);
+            if (controller != null) controller.ReleaseIntersectionReservations(this);
             speed = 0f;
             stopTimer = 0f;
             heldTrafficLight = null;
@@ -324,8 +252,7 @@ namespace Boulangerie3D.Traffic
 
         private void SetPosition(Vector3 position)
         {
-            if (cachedBody != null)
-                cachedBody.position = position;
+            if (cachedBody != null) cachedBody.position = position;
             transform.position = position;
         }
     }
