@@ -145,10 +145,13 @@ namespace Boulangerie3D.Traffic
             {
                 TrafficControlPoint control = controls[i];
                 if (control == null || control.Kind != TrafficControlKind.TrafficLight || control.IsGreen) continue;
+
+                // Important : on ne fait plus aucun secours basé sur la proximité physique
+                // du poteau. Un véhicule ne doit réagir qu'au feu qui correspond à son axe,
+                // son sens et son côté d'approche.
                 if (!control.Affects(position, forward)) continue;
+
                 float ahead = control.DistanceAhead(position, forward);
-                // Une petite marge négative empêche une voiture qui avance d'un pas de simulation
-                // de perdre son feu rouge juste au niveau de la ligne d'arrêt.
                 if (ahead >= -2.25f && ahead < nearestDistance)
                 {
                     nearest = control;
@@ -156,25 +159,6 @@ namespace Boulangerie3D.Traffic
                 }
             }
 
-            // Sécurité du premier carrefour : si un feu rouge n'a pas été associé à cause de
-            // l'orientation du prefab, on prend le feu rouge le plus proche réellement devant
-            // la voiture. Cela corrige le côté visible sur les captures qui traversait le rouge.
-            if (nearest == null)
-            {
-                for (int i = 0; i < controls.Length; i++)
-                {
-                    TrafficControlPoint control = controls[i];
-                    if (control == null || control.Kind != TrafficControlKind.TrafficLight || control.IsGreen) continue;
-                    Vector3 delta = control.transform.position - position;
-                    delta.y = 0f;
-                    float ahead = Vector3.Dot(delta, forward);
-                    if (ahead < -1.5f || ahead > 20f) continue;
-                    float lateral = (delta - forward * ahead).magnitude;
-                    if (lateral > 8f || ahead >= nearestDistance) continue;
-                    nearest = control;
-                    nearestDistance = ahead;
-                }
-            }
             return nearest;
         }
 
