@@ -44,8 +44,6 @@ namespace Boulangerie3D.Traffic
             if (discoveredCrosswalks.Length > 0)
                 crosswalks = discoveredCrosswalks;
 
-            // Infer the exact approach and a safe stop line. When a crossing exists at the
-            // junction, the line is placed before its outer edge rather than at the pole.
             for (int i = 0; i < controls.Length; i++)
                 if (controls[i] != null)
                     controls[i].BindToNearestIntersection(intersections, crosswalks);
@@ -53,9 +51,11 @@ namespace Boulangerie3D.Traffic
             vehicles = vehiclePoolRoot != null
                 ? vehiclePoolRoot.GetComponentsInChildren<TrafficVehicleAgent>(true)
                 : new TrafficVehicleAgent[0];
+
+            PreparePlacedPedestrians();
             pedestrians = pedestrianPoolRoot != null
                 ? pedestrianPoolRoot.GetComponentsInChildren<PedestrianAgent>(true)
-                : new PedestrianAgent[0];
+                : FindObjectsByType<PedestrianAgent>(FindObjectsInactive.Include, FindObjectsSortMode.None);
 
             int vehicleCount = Mathf.Min(maxVisibleVehicles, vehicles.Length);
             bool useSingleDirection = vehicleCount > vehicleRoutes.Length;
@@ -82,23 +82,101 @@ namespace Boulangerie3D.Traffic
             for (int i = 0; i < pedestrianRoutes.Length; i++)
                 if (pedestrianRoutes[i] != null && pedestrianRoutes[i].IsValid)
                     validPedestrianRoutes.Add(pedestrianRoutes[i]);
+
             for (int i = 0; i < pedestrians.Length; i++)
             {
+                PedestrianAgent pedestrian = pedestrians[i];
+                if (pedestrian == null)
+                    continue;
+
                 bool enabled = i < pedestrianCount && validPedestrianRoutes.Count > 0;
-                pedestrians[i].gameObject.SetActive(enabled);
+                pedestrian.gameObject.SetActive(enabled);
                 if (enabled)
                 {
                     int routeIndex = i % validPedestrianRoutes.Count;
                     TrafficRoutePath assignedRoute = validPedestrianRoutes[routeIndex];
                     int agentsOnRoute = Mathf.CeilToInt((float)pedestrianCount / validPedestrianRoutes.Count);
                     int spacing = Mathf.Max(1, assignedRoute.Count / Mathf.Max(1, agentsOnRoute));
-                    int occurrence = i / pedestrianRoutes.Length;
-                    pedestrians[i].Initialize(this, assignedRoute, occurrence * spacing);
+                    int occurrence = i / validPedestrianRoutes.Count;
+                    pedestrian.Initialize(this, assignedRoute, occurrence * spacing);
                 }
             }
 
             if (maxVisiblePedestrians > 0 && pedestrians.Length == 0)
-                Debug.Log("[MobileTraffic] Aucun prefab humain léger hors o3n n'est disponible; le pool piéton reste vide.", this);
+                Debug.LogWarning("[MobileTraffic] Aucun piéton disponible. Place les personnages sous le groupe piétons ou ajoute PedestrianAgent.", this);
+            else if (pedestrians.Length > 0)
+                Debug.Log($"[MobileTraffic] {Mathf.Min(maxVisiblePedestrians, pedestrians.Length)} piéton(s) activé(s) sur {validPedestrianRoutes.Count} itinéraire(s).", this);
+        }
+
+        private void PreparePlacedPedestrians()
+        {
+            if (pedestrianPoolRoot == null)
+            {
+                Transform[] allTransforms = FindObjectsByType<Transform>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+                for (int i = 0; i < allTransforms.Length; i++)
+                {
+                    Transform candidate = allTransforms[i];
+                    if (candidate == null)
+                        continue;
+
+                    string key = NormalizeName(candidate.name);
+                    if (key == "pedestrians" || key == "pedestrianpool" || key == "pietons" ||
+                        key == "pietonpool" || key == "trafficpedestrians" || key == "passants")
+                    {
+                        pedestrianPoolRoot = candidate;
+                        break;
+                    }
+                }
+            }
+
+            if (pedestrianPoolRoot == null)
+                return;
+
+            int added = 0;
+            for (int i = 0; i < pedestrianPoolRoot.childCount; i++)
+            {
+                Transform child = pedestrianPoolRoot.GetChild(i);
+                if (child == null)
+                    continue;
+
+                if (child.GetComponentInChildren<PedestrianAgent>(true) != null)
+                    continue;
+
+                // Only direct children of the dedicated pedestrian group are auto-prepared.
+                // This prevents bakery staff or customers elsewhere in the scene from being
+                // accidentally converted into street pedestrians.
+                if (child.GetComponentInChildren<Renderer>(true) == null &&
+                    child.GetComponentInChildren<Animator>(true) == null)
+                    continue;
+
+                Rigidbody body = child.GetComponent<Rigidbody>();
+                if (body == null)
+                    body = child.gameObject.AddComponent<Rigidbody>();
+                body.isKinematic = true;
+                body.useGravity = false;
+                body.interpolation = RigidbodyInterpolation.None;
+
+                child.gameObject.AddComponent<PedestrianAgent>();
+                added++;
+            }
+
+            if (added > 0)
+                Debug.Log($"[MobileTraffic] {added} nouveau(x) bonhomme(s) préparé(s) automatiquement comme piétons.", this);
+        }
+
+        private static string NormalizeName(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+                return string.Empty;
+
+            return value.ToLowerInvariant()
+                .Replace(" ", string.Empty)
+                .Replace("_", string.Empty)
+                .Replace("-", string.Empty)
+                .Replace(".", string.Empty)
+                .Replace("é", "e")
+                .Replace("è", "e")
+                .Replace("ê", "e");
         }
 
         public float GetLeadVehicleDistance(TrafficVehicleAgent self, Vector3 forward, float maxDistance)
