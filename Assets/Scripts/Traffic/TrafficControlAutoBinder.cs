@@ -1,10 +1,13 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace Boulangerie3D.Traffic
 {
     /// <summary>
-    /// Connects decorative traffic-light and STOP props to the traffic simulation once
-    /// when the scene starts. It does not move, rotate or otherwise edit authored objects.
+    /// Raccorde uniquement les vrais accessoires de circulation visibles à la simulation.
+    /// Pour les feux, on travaille carrefour par carrefour : le groupe de quatre feux le
+    /// plus compact est traité comme un seul carrefour et chaque feu reçoit une zone
+    /// d'approche cohérente avec le centre du groupe.
     /// </summary>
     public static class TrafficControlAutoBinder
     {
@@ -20,10 +23,10 @@ namespace Boulangerie3D.Traffic
                 FindObjectsInactive.Exclude,
                 FindObjectsSortMode.None);
 
-            int lightsAdded = 0;
-            int stopsAdded = 0;
-
             System.Array.Sort(transforms, CompareDepth);
+
+            var lightCandidates = new List<Transform>();
+            var stopCandidates = new List<Transform>();
 
             for (int i = 0; i < transforms.Length; i++)
             {
@@ -36,26 +39,73 @@ namespace Boulangerie3D.Traffic
                 bool isStop = !isTrafficLight && LooksLikeStopSign(normalized);
                 if (!isTrafficLight && !isStop)
                     continue;
-
                 if (current.GetComponentInChildren<Renderer>(true) == null)
                     continue;
 
-                TrafficControlPoint control = current.gameObject.AddComponent<TrafficControlPoint>();
-                if (isTrafficLight)
-                {
-                    // The runtime binder now uses the intersection centre for lane filtering,
-                    // so a wide 9 m tolerance is no longer needed and caused false stops.
-                    control.Configure(TrafficControlKind.TrafficLight, 18f, 4.5f);
-                    lightsAdded++;
-                }
-                else
-                {
-                    control.Configure(TrafficControlKind.Stop, 16f, 4.5f);
-                    stopsAdded++;
-                }
+                if (isTrafficLight) lightCandidates.Add(current);
+                else stopCandidates.Add(current);
             }
 
-            Debug.Log($"[MobileTraffic] Raccordement automatique : {lightsAdded} feu(x), {stopsAdded} STOP ajouté(s)." );
+            // Le projet est volontairement repris carrefour par carrefour. Tant qu'il n'y
+            // a qu'un carrefour, les quatre feux visibles doivent tous appartenir au même
+            // groupe. On évite ainsi qu'un ancien objet éloigné influence les voitures.
+            List<Transform> activeLights = SelectFirstIntersection(lightCandidates);
+            int lightsAdded = 0;
+            for (int i = 0; i < activeLights.Count; i++)
+            {
+                TrafficControlPoint control = activeLights[i].gameObject.AddComponent<TrafficControlPoint>();
+                control.Configure(TrafficControlKind.TrafficLight, 20f, 5.25f);
+                lightsAdded++;
+            }
+
+            int stopsAdded = 0;
+            for (int i = 0; i < stopCandidates.Count; i++)
+            {
+                TrafficControlPoint control = stopCandidates[i].gameObject.AddComponent<TrafficControlPoint>();
+                control.Configure(TrafficControlKind.Stop, 16f, 4.5f);
+                stopsAdded++;
+            }
+
+            Debug.Log($"[MobileTraffic] Premier carrefour : {lightsAdded} feu(x) raccordé(s), {stopsAdded} STOP raccordé(s)." );
+        }
+
+        private static List<Transform> SelectFirstIntersection(List<Transform> candidates)
+        {
+            if (candidates.Count <= 4)
+                return candidates;
+
+            // Cherche le groupe de quatre feux dont les distances mutuelles sont les plus
+            // petites. C'est robuste même si les noms des quatre prefabs sont identiques.
+            float bestScore = float.MaxValue;
+            var best = new List<Transform>(4);
+
+            for (int anchor = 0; anchor < candidates.Count; anchor++)
+            {
+                Transform a = candidates[anchor];
+                var ordered = new List<Transform>(candidates);
+                ordered.Sort((x, y) => HorizontalSqr(a.position, x.position).CompareTo(HorizontalSqr(a.position, y.position)));
+                if (ordered.Count < 4) continue;
+
+                float score = 0f;
+                Vector3 center = Vector3.zero;
+                for (int i = 0; i < 4; i++) center += ordered[i].position;
+                center /= 4f;
+                for (int i = 0; i < 4; i++) score += HorizontalSqr(center, ordered[i].position);
+
+                if (score >= bestScore) continue;
+                bestScore = score;
+                best.Clear();
+                for (int i = 0; i < 4; i++) best.Add(ordered[i]);
+            }
+
+            return best.Count == 4 ? best : candidates;
+        }
+
+        private static float HorizontalSqr(Vector3 a, Vector3 b)
+        {
+            float x = a.x - b.x;
+            float z = a.z - b.z;
+            return x * x + z * z;
         }
 
         private static bool LooksLikeTrafficLight(string name)
