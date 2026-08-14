@@ -43,15 +43,14 @@ namespace Boulangerie3D.Traffic
                 TrafficControlPoint control = current.gameObject.AddComponent<TrafficControlPoint>();
                 if (isTrafficLight)
                 {
-                    // Roadside props can sit several metres away from the lane centre.
-                    // The intersection/approach binding prevents this wider tolerance from
-                    // accidentally controlling the perpendicular road.
-                    control.Configure(TrafficControlKind.TrafficLight, 20f, 9f);
+                    // The runtime binder now uses the intersection centre for lane filtering,
+                    // so a wide 9 m tolerance is no longer needed and caused false stops.
+                    control.Configure(TrafficControlKind.TrafficLight, 18f, 4.5f);
                     lightsAdded++;
                 }
                 else
                 {
-                    control.Configure(TrafficControlKind.Stop, 18f, 9f);
+                    control.Configure(TrafficControlKind.Stop, 16f, 4.5f);
                     stopsAdded++;
                 }
             }
