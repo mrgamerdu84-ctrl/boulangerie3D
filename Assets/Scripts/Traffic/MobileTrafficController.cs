@@ -28,13 +28,8 @@ namespace Boulangerie3D.Traffic
 
         private void Awake()
         {
-            // Decorative traffic-light and STOP props are connected once before the
-            // controller caches its controls. Nothing is moved or modified in the scene.
             TrafficControlAutoBinder.BindSceneControls();
 
-            // Controls and reservation zones are inexpensive to discover once at startup.
-            // This prevents stale/missing Inspector references from making cars ignore
-            // traffic lights or intersections. There are no scene-wide searches per frame.
             TrafficControlPoint[] discoveredControls = FindObjectsByType<TrafficControlPoint>(FindObjectsSortMode.None);
             if (discoveredControls.Length > 0)
                 controls = discoveredControls;
@@ -43,6 +38,12 @@ namespace Boulangerie3D.Traffic
                 FindObjectsByType<TrafficIntersectionReservation>(FindObjectsSortMode.None);
             if (discoveredIntersections.Length > 0)
                 intersections = discoveredIntersections;
+
+            // Infer the controlled approach from the nearest real intersection instead of
+            // trusting decorative prefab rotations. This is done once at startup only.
+            for (int i = 0; i < controls.Length; i++)
+                if (controls[i] != null)
+                    controls[i].BindToNearestIntersection(intersections);
 
             vehicles = vehiclePoolRoot != null
                 ? vehiclePoolRoot.GetComponentsInChildren<TrafficVehicleAgent>(true)
@@ -149,8 +150,6 @@ namespace Boulangerie3D.Traffic
             return false;
         }
 
-        // Returns the nearest STOP, red light or yellow light affecting this lane.
-        // Green lights are deliberately ignored.
         public TrafficControlPoint FindBlockingControl(Vector3 position, Vector3 forward)
         {
             TrafficControlPoint nearest = null;
@@ -167,7 +166,7 @@ namespace Boulangerie3D.Traffic
                     continue;
 
                 float ahead = control.DistanceAhead(position, forward);
-                if (ahead >= -0.5f && ahead < nearestDistance)
+                if (ahead >= -0.75f && ahead < nearestDistance)
                 {
                     nearest = control;
                     nearestDistance = ahead;
@@ -177,9 +176,6 @@ namespace Boulangerie3D.Traffic
             return nearest;
         }
 
-        // Call this only after traffic lights, STOP, pedestrians and following distance
-        // have allowed the vehicle to continue. This prevents a waiting car from owning
-        // an intersection while it is still stopped at a control point.
         public bool CanProceedIntersection(TrafficVehicleAgent vehicle, Vector3 position, Vector3 forward, float lookAhead)
         {
             forward.y = 0f;
