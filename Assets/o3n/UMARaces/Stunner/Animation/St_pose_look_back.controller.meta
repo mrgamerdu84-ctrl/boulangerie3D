@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 80f26ca0201b3014fa6be52f1c3c1257
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 175172
+  packageName: o3n UMA Races Stunner Jane & John Standard Render Pipeline
+  packageVersion: 1.11
+  assetPath: Assets/o3n/UMARaces/Stunner/Animation/St_pose_look_back.controller
+  uploadId: 563649

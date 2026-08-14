@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 06344b844b024134fb02bc17cf9eafa7
+timeCreated: 1519066520
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 175172
+  packageName: o3n UMA Races Stunner Jane & John Standard Render Pipeline
+  packageVersion: 1.11
+  assetPath: Assets/o3n/UMARaces/Stunner/Materials/st_Standard_Material_With_Skin.mat
+  uploadId: 563649

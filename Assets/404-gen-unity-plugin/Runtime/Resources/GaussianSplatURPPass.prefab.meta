@@ -1,0 +1,14 @@
+﻿fileFormatVersion: 2
+guid: b1063b95fa25d05498a21912aa4aa648
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 311107
+  packageName: 
+  packageVersion: 0.7.0
+  assetPath: Assets/404-gen-unity-plugin/Runtime/Resources/GaussianSplatURPPass.prefab
+  uploadId: 916048

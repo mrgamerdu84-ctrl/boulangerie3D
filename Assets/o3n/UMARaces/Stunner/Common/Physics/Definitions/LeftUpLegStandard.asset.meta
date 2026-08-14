@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: e3411da91df1cef488fd91896c05d341
+timeCreated: 1508361583
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 175172
+  packageName: o3n UMA Races Stunner Jane & John Standard Render Pipeline
+  packageVersion: 1.11
+  assetPath: Assets/o3n/UMARaces/Stunner/Common/Physics/Definitions/LeftUpLegStandard.asset
+  uploadId: 563649

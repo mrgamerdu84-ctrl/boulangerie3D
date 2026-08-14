@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 790cccb19a3e5fd4b8e655dfbea06301
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 175172
+  packageName: o3n UMA Races Stunner Jane & John Standard Render Pipeline
+  packageVersion: 1.11
+  assetPath: Assets/o3n/UMARaces/Stunner/Materials/st_Modified_Standard_DoubleSided.shader
+  uploadId: 563649

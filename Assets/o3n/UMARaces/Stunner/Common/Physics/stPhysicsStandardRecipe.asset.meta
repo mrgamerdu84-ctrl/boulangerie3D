@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 62143f78738394945a3a22145d8c0a70
+timeCreated: 1508447033
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 175172
+  packageName: o3n UMA Races Stunner Jane & John Standard Render Pipeline
+  packageVersion: 1.11
+  assetPath: Assets/o3n/UMARaces/Stunner/Common/Physics/stPhysicsStandardRecipe.asset
+  uploadId: 563649

@@ -1,0 +1,2122 @@
+﻿{
+    "startedUtc": "2026-08-13T22:00:44.1804415Z",
+    "completedUtc": "2026-08-13T22:03:18.0602989Z",
+    "unityVersion": "6000.5.0b11",
+    "originalScenePath": "Assets/BOULANGERIE.unity",
+    "originalSceneHashBefore": "4dcd14d2bfb0aee99fe21aba766d7dbba69bff60202fffdff70370715d6dcc3c",
+    "originalSceneHashAfter": "4dcd14d2bfb0aee99fe21aba766d7dbba69bff60202fffdff70370715d6dcc3c",
+    "originalSceneUnchanged": true,
+    "scannedMaterialAssets": 421,
+    "scannedPrefabs": 509,
+    "incompatibleMaterialsFound": 151,
+    "correctedMaterialCopies": 151,
+    "affectedPrefabsFound": 104,
+    "correctedPrefabCopies": 104,
+    "validationInvalidMaterialSlots": 0,
+    "validationMagentaPixels": 0,
+    "categories": [
+        {
+            "category": "Buildings",
+            "materials": 50,
+            "prefabs": 23,
+            "invalidSlots": 0,
+            "magentaPixels": 0,
+            "preview": "Assets/URP_Migrated/UserLibrary/Validation/Preview_Buildings.png"
+        },
+        {
+            "category": "Commercial",
+            "materials": 12,
+            "prefabs": 21,
+            "invalidSlots": 0,
+            "magentaPixels": 0,
+            "preview": "Assets/URP_Migrated/UserLibrary/Validation/Preview_Commercial.png"
+        },
+        {
+            "category": "Roads",
+            "materials": 34,
+            "prefabs": 6,
+            "invalidSlots": 0,
+            "magentaPixels": 0,
+            "preview": "Assets/URP_Migrated/UserLibrary/Validation/Preview_Roads.png"
+        },
+        {
+            "category": "Vehicles",
+            "materials": 18,
+            "prefabs": 7,
+            "invalidSlots": 0,
+            "magentaPixels": 0,
+            "preview": "Assets/URP_Migrated/UserLibrary/Validation/Preview_Vehicles.png"
+        },
+        {
+            "category": "Nature",
+            "materials": 15,
+            "prefabs": 12,
+            "invalidSlots": 0,
+            "magentaPixels": 0,
+            "preview": "Assets/URP_Migrated/UserLibrary/Validation/Preview_Nature.png"
+        },
+        {
+            "category": "StreetFurniture",
+            "materials": 15,
+            "prefabs": 20,
+            "invalidSlots": 0,
+            "magentaPixels": 0,
+            "preview": "Assets/URP_Migrated/UserLibrary/Validation/Preview_StreetFurniture.png"
+        },
+        {
+            "category": "Signs",
+            "materials": 7,
+            "prefabs": 15,
+            "invalidSlots": 0,
+            "magentaPixels": 0,
+            "preview": "Assets/URP_Migrated/UserLibrary/Validation/Preview_Signs.png"
+        }
+    ],
+    "materials": [
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Materials/accent_3.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/accent_3_URP_65ae0fe4.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Materials/balcon_2.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/balcon_2_URP_9b850e3d.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Materials/blue.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/blue_URP_6b955636.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Materials/blue_3.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/blue_3_URP_34b6d311.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Materials/brick.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/brick_URP_ebf6fd58.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Materials/bright_yellow.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/bright_yellow_URP_7f63298f.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Materials/brown.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/brown_URP_d9bf4959.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Materials/chair.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/chair_URP_cfeca8c6.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Materials/fasade_4.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/fasade_4_URP_cabd4648.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Materials/fasade_6.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/fasade_6_URP_0457a2c0.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Materials/fasade_7.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/fasade_7_URP_3cec0acf.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Materials/fasade_8.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/fasade_8_URP_ba85ea3d.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Materials/fasade_9.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/fasade_9_URP_d98694cb.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Materials/fasade_9_5.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/fasade_9_5_URP_4cc54fd6.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Materials/gray.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/gray_URP_33671143.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Materials/gray_2.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/gray_2_URP_b71d8f55.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Materials/green_tab.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/green_tab_URP_337b8504.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Materials/lamp_2.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/lamp_2_URP_fccf0090.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Materials/line.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/line_URP_752e8640.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Materials/mat_005.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/mat_005_URP_0cf460bf.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Materials/mat_006.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/mat_006_URP_c7c083e0.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Materials/mat_032.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/mat_032_URP_5000b164.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Materials/red_emiter.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/red_emiter_URP_59123095.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Materials/roof_1.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/roof_1_URP_415f0f21.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Materials/roof_3.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/roof_3_URP_c4137ce1.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Materials/roof_4.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/roof_4_URP_4edf3522.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Materials/umbrella.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/umbrella_URP_e7a04e6b.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Materials/unnamed.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/unnamed_URP_c27c6568.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Materials/wood.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/wood_URP_d4f17843.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Materials/wood_2.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/wood_2_URP_0cf7a023.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/asphalt_2_tracks.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/asphalt_2_tracks_URP_046eb7f1.mat",
+            "sourceShader": "Standard (Specular setup)",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/asphalt_2-5_tracks.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/asphalt_2-5_tracks_URP_ca6dd573.mat",
+            "sourceShader": "Standard (Specular setup)",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/asphalt_4_tracks.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/asphalt_4_tracks_URP_b0c185bb.mat",
+            "sourceShader": "Standard (Specular setup)",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/asphalt_extra.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/asphalt_extra_URP_730b9aa9.mat",
+            "sourceShader": "Standard (Specular setup)",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/asphalt_highway.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/asphalt_highway_URP_28070a01.mat",
+            "sourceShader": "Standard (Specular setup)",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/asphalt_square.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/asphalt_square_URP_04a0d6a4.mat",
+            "sourceShader": "Standard (Specular setup)",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/blue_light.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/blue_light_URP_242b41c0.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/building_bases.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/building_bases_URP_b861da7f.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/building_facades.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/building_facades_URP_dc95c7e4.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/building_interior.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/building_interior_URP_4decb995.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/building_windows_wet.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/building_windows_wet_URP_43eafd20.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/highrise_facades.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/highrise_facades_URP_2230756f.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/highway_wall.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/highway_wall_URP_f39a5318.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/orange_light.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/orange_light_URP_985abb29.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/pink_light.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/pink_light_URP_10e7f910.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/props_main.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/props_main_URP_cc539cf6.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/road_sideway_fences.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/road_sideway_fences_URP_9eefb3ef.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/sideway_tile.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/sideway_tile_URP_5cc654ea.mat",
+            "sourceShader": "Standard (Specular setup)",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/white_light.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/white_light_URP_5f2b4bf1.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Scenes/SkyBox/CustomSky.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Materials/CustomSky_URP_7781049b.mat",
+            "sourceShader": "Skybox/Procedural",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Commercial",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/blue_light.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Commercial/Materials/blue_light_URP_242b41c0.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Commercial",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/building_bases.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Commercial/Materials/building_bases_URP_b861da7f.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Commercial",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/building_facades.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Commercial/Materials/building_facades_URP_dc95c7e4.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Commercial",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/building_interior.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Commercial/Materials/building_interior_URP_4decb995.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Commercial",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/building_windows_wet.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Commercial/Materials/building_windows_wet_URP_43eafd20.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Commercial",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/highrise_facades.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Commercial/Materials/highrise_facades_URP_2230756f.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Commercial",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/orange_light.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Commercial/Materials/orange_light_URP_985abb29.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Commercial",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/props_main.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Commercial/Materials/props_main_URP_cc539cf6.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Commercial",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/sideway_tile.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Commercial/Materials/sideway_tile_URP_5cc654ea.mat",
+            "sourceShader": "Standard (Specular setup)",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Commercial",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/vegetation_main.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Commercial/Materials/vegetation_main_URP_f9070d3b.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Commercial",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/vegetation_non_tp.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Commercial/Materials/vegetation_non_tp_URP_a9fc0bae.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Commercial",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/white_light.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Commercial/Materials/white_light_URP_5f2b4bf1.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Nature",
+            "source": "Assets/European Buildings/Materials/bright_yellow.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Nature/Materials/bright_yellow_URP_7f63298f.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Nature",
+            "source": "Assets/European Buildings/Materials/gray_2.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Nature/Materials/gray_2_URP_b71d8f55.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Nature",
+            "source": "Assets/European Buildings/Materials/lamp_1.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Nature/Materials/lamp_1_URP_97acba5b.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Nature",
+            "source": "Assets/European Buildings/Materials/lamp_2.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Nature/Materials/lamp_2_URP_fccf0090.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Nature",
+            "source": "Assets/European Buildings/Materials/lamp_3.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Nature/Materials/lamp_3_URP_6effbb1f.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Nature",
+            "source": "Assets/SpaceZeta_StreetLamps2/Materials/M_StreetLampRound1A.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Nature/Materials/M_StreetLampRound1A_URP_db9f7ac0.mat",
+            "sourceShader": "Autodesk Interactive",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Nature",
+            "source": "Assets/SpaceZeta_StreetLamps2/Materials/M_StreetLampRound1B.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Nature/Materials/M_StreetLampRound1B_URP_fe987048.mat",
+            "sourceShader": "Autodesk Interactive",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Nature",
+            "source": "Assets/SpaceZeta_StreetLamps2/Materials/M_StreetLampRound2A.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Nature/Materials/M_StreetLampRound2A_URP_cbd61de3.mat",
+            "sourceShader": "Autodesk Interactive",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Nature",
+            "source": "Assets/SpaceZeta_StreetLamps2/Materials/M_StreetLampRound2B.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Nature/Materials/M_StreetLampRound2B_URP_6570fa15.mat",
+            "sourceShader": "Autodesk Interactive",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Nature",
+            "source": "Assets/SpaceZeta_StreetLamps2/Materials/Showcase/Floor.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Nature/Materials/Floor_URP_79f78a73.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Nature",
+            "source": "Assets/Tree.prefab::Optimized Bark Material",
+            "destination": "Assets/URP_Migrated/UserLibrary/Nature/Materials/Optimized_Bark_Material_URP_ec27511d.mat",
+            "sourceShader": "Hidden/Nature/Tree Creator Bark Optimized",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Nature",
+            "source": "Assets/Tree.prefab::Optimized Leaf Material",
+            "destination": "Assets/URP_Migrated/UserLibrary/Nature/Materials/Optimized_Leaf_Material_URP_e78b4bc3.mat",
+            "sourceShader": "Hidden/Nature/Tree Creator Leaves Optimized",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Nature",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/building_bases.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Nature/Materials/building_bases_URP_b861da7f.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Nature",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/vegetation_main.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Nature/Materials/vegetation_main_URP_f9070d3b.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Nature",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/vegetation_non_tp.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Nature/Materials/vegetation_non_tp_URP_a9fc0bae.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/Arabic Neoclassical/Street Road/Mesh/Roads.fbx::aiStandardSurface2",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Materials/aiStandardSurface2_URP_5e9586f6.mat",
+            "sourceShader": "Shader Graphs/ArnoldStandardSurface",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/European Buildings/Materials/brick.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Materials/brick_URP_ebf6fd58.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/European Buildings/Materials/line.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Materials/line_URP_752e8640.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/European Buildings/Materials/road_color.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Materials/road_color_URP_ee38ed63.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/Old Sign Roads/Materials/road_signs.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Materials/road_signs_URP_1e3ee960.mat",
+            "sourceShader": "Standard (Specular setup)",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/Old Sign Roads/Scene/Background.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Materials/Background_URP_fb429c8c.mat",
+            "sourceShader": "Skybox/Cubemap",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/asphalt_2_tracks.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Materials/asphalt_2_tracks_URP_046eb7f1.mat",
+            "sourceShader": "Standard (Specular setup)",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/asphalt_2-5_tracks.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Materials/asphalt_2-5_tracks_URP_ca6dd573.mat",
+            "sourceShader": "Standard (Specular setup)",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/asphalt_4_tracks.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Materials/asphalt_4_tracks_URP_b0c185bb.mat",
+            "sourceShader": "Standard (Specular setup)",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/asphalt_extra.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Materials/asphalt_extra_URP_730b9aa9.mat",
+            "sourceShader": "Standard (Specular setup)",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/asphalt_highway.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Materials/asphalt_highway_URP_28070a01.mat",
+            "sourceShader": "Standard (Specular setup)",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/asphalt_square.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Materials/asphalt_square_URP_04a0d6a4.mat",
+            "sourceShader": "Standard (Specular setup)",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/road_sideway_fences.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Materials/road_sideway_fences_URP_9eefb3ef.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/YughuesFreePavementsMaterials/Materials/M_YFPM_Blocs.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Materials/M_YFPM_Blocs_URP_7e2470fe.mat",
+            "sourceShader": "Standard (Specular setup)",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/YughuesFreePavementsMaterials/Materials/M_YFPM_BrokenRectangles.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Materials/M_YFPM_BrokenRectangles_URP_2b287a03.mat",
+            "sourceShader": "Standard (Specular setup)",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/YughuesFreePavementsMaterials/Materials/M_YFPM_JaggedSquare.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Materials/M_YFPM_JaggedSquare_URP_ec6d2b4f.mat",
+            "sourceShader": "Standard (Specular setup)",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/YughuesFreePavementsMaterials/Materials/M_YFPM_Mediterranean01.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Materials/M_YFPM_Mediterranean01_URP_f724f67b.mat",
+            "sourceShader": "Standard (Specular setup)",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/YughuesFreePavementsMaterials/Materials/M_YFPM_Mediterranean02.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Materials/M_YFPM_Mediterranean02_URP_f0ee989d.mat",
+            "sourceShader": "Standard (Specular setup)",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/YughuesFreePavementsMaterials/Materials/M_YFPM_OrientalFan.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Materials/M_YFPM_OrientalFan_URP_d3f3d875.mat",
+            "sourceShader": "Standard (Specular setup)",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/YughuesFreePavementsMaterials/Materials/M_YFPM_Pavement01.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Materials/M_YFPM_Pavement01_URP_238870fc.mat",
+            "sourceShader": "Standard (Specular setup)",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/YughuesFreePavementsMaterials/Materials/M_YFPM_Permeable01.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Materials/M_YFPM_Permeable01_URP_0a2bb434.mat",
+            "sourceShader": "Standard (Specular setup)",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/YughuesFreePavementsMaterials/Materials/M_YFPM_Permeable02.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Materials/M_YFPM_Permeable02_URP_1d252e44.mat",
+            "sourceShader": "Standard (Specular setup)",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/YughuesFreePavementsMaterials/Materials/M_YFPM_Rough01.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Materials/M_YFPM_Rough01_URP_3f8483a3.mat",
+            "sourceShader": "Standard (Specular setup)",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/YughuesFreePavementsMaterials/Materials/M_YFPM_Rough02.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Materials/M_YFPM_Rough02_URP_8c6dd2b1.mat",
+            "sourceShader": "Standard (Specular setup)",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/YughuesFreePavementsMaterials/Materials/M_YFPM_Rough03.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Materials/M_YFPM_Rough03_URP_0b6c681f.mat",
+            "sourceShader": "Standard (Specular setup)",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/YughuesFreePavementsMaterials/Materials/M_YFPM_Rough04.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Materials/M_YFPM_Rough04_URP_9f856eea.mat",
+            "sourceShader": "Standard (Specular setup)",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/YughuesFreePavementsMaterials/Materials/M_YFPM_Rough05.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Materials/M_YFPM_Rough05_URP_dfd0527a.mat",
+            "sourceShader": "Standard (Specular setup)",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/YughuesFreePavementsMaterials/Materials/M_YFPM_Slates.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Materials/M_YFPM_Slates_URP_a6f09970.mat",
+            "sourceShader": "Standard (Specular setup)",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/YughuesFreePavementsMaterials/Materials/M_YFPM_SmoothSquare.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Materials/M_YFPM_SmoothSquare_URP_5641548c.mat",
+            "sourceShader": "Standard (Specular setup)",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/YughuesFreePavementsMaterials/Materials/M_YFPM_StonesFlat.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Materials/M_YFPM_StonesFlat_URP_8710e7c6.mat",
+            "sourceShader": "Standard (Specular setup)",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/YughuesFreePavementsMaterials/Materials/M_YFPM_StonesRough.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Materials/M_YFPM_StonesRough_URP_efc11871.mat",
+            "sourceShader": "Standard (Specular setup)",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/YughuesFreePavementsMaterials/Materials/M_YFPM_StonesSmooth.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Materials/M_YFPM_StonesSmooth_URP_6c47fa46.mat",
+            "sourceShader": "Standard (Specular setup)",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/YughuesFreePavementsMaterials/Materials/M_YFPM_Web.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Materials/M_YFPM_Web_URP_caad7774.mat",
+            "sourceShader": "Standard (Specular setup)",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/YughuesFreePavementsMaterials/Preview/M_checker.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Materials/M_checker_URP_39e73fd5.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Signs",
+            "source": "Assets/European Buildings/Materials/blue.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Signs/Materials/blue_URP_6b955636.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Signs",
+            "source": "Assets/European Buildings/Materials/brick.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Signs/Materials/brick_URP_ebf6fd58.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Signs",
+            "source": "Assets/European Buildings/Materials/green_tab.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Signs/Materials/green_tab_URP_337b8504.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Signs",
+            "source": "Assets/European Buildings/Materials/mat_005.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Signs/Materials/mat_005_URP_0cf460bf.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Signs",
+            "source": "Assets/European Buildings/Materials/mat_006.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Signs/Materials/mat_006_URP_c7c083e0.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Signs",
+            "source": "Assets/European Buildings/Materials/red_emiter.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Signs/Materials/red_emiter_URP_59123095.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Signs",
+            "source": "Assets/Old Sign Roads/Materials/road_signs.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Signs/Materials/road_signs_URP_1e3ee960.mat",
+            "sourceShader": "Standard (Specular setup)",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "StreetFurniture",
+            "source": "Assets/European Buildings/Materials/blue_3.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/StreetFurniture/Materials/blue_3_URP_34b6d311.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "StreetFurniture",
+            "source": "Assets/European Buildings/Materials/brown.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/StreetFurniture/Materials/brown_URP_d9bf4959.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "StreetFurniture",
+            "source": "Assets/European Buildings/Materials/gray.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/StreetFurniture/Materials/gray_URP_33671143.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "StreetFurniture",
+            "source": "Assets/European Buildings/Materials/lamp_1.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/StreetFurniture/Materials/lamp_1_URP_97acba5b.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "StreetFurniture",
+            "source": "Assets/European Buildings/Materials/lamp_2.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/StreetFurniture/Materials/lamp_2_URP_fccf0090.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "StreetFurniture",
+            "source": "Assets/European Buildings/Materials/lamp_3.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/StreetFurniture/Materials/lamp_3_URP_6effbb1f.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "StreetFurniture",
+            "source": "Assets/European Buildings/Materials/wood.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/StreetFurniture/Materials/wood_URP_d4f17843.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "StreetFurniture",
+            "source": "Assets/European Buildings/Materials/wood_2.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/StreetFurniture/Materials/wood_2_URP_0cf7a023.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "StreetFurniture",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/blue_light.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/StreetFurniture/Materials/blue_light_URP_242b41c0.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "StreetFurniture",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/building_bases.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/StreetFurniture/Materials/building_bases_URP_b861da7f.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "StreetFurniture",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/highway_wall.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/StreetFurniture/Materials/highway_wall_URP_f39a5318.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "StreetFurniture",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/orange_light.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/StreetFurniture/Materials/orange_light_URP_985abb29.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "StreetFurniture",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/pink_light.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/StreetFurniture/Materials/pink_light_URP_10e7f910.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "StreetFurniture",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/props_main.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/StreetFurniture/Materials/props_main_URP_cc539cf6.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "StreetFurniture",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Materials/white_light.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/StreetFurniture/Materials/white_light_URP_5f2b4bf1.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Vehicles",
+            "source": "Assets/asset_free_Ukraine_cars/materials/all colors.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Vehicles/Materials/all_colors_URP_7bb3cad6.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Vehicles",
+            "source": "Assets/High Matters/Free American Sedans/Art/Materials/Car_Color_Mat.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Vehicles/Materials/Car_Color_Mat_URP_f9ff7060.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Vehicles",
+            "source": "Assets/High Matters/Free American Sedans/Art/Materials/Car_details_Mat.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Vehicles/Materials/Car_details_Mat_URP_95d95a75.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Vehicles",
+            "source": "Assets/High Matters/Free American Sedans/Art/Materials/Car_Glass_Mat.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Vehicles/Materials/Car_Glass_Mat_URP_0b56895b.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Vehicles",
+            "source": "Assets/High Matters/Free American Sedans/Art/Materials/Car_Glass_S_Mat.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Vehicles/Materials/Car_Glass_S_Mat_URP_b45cf1e2.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Vehicles",
+            "source": "Assets/High Matters/Free American Sedans/Art/Materials/Car_Number_Mat.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Vehicles/Materials/Car_Number_Mat_URP_047d18d6.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Vehicles",
+            "source": "Assets/High Matters/Free American Sedans/Art/Materials/Lights/BaseLight/Headlights_Mat.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Vehicles/Materials/Headlights_Mat_URP_31164bf2.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Vehicles",
+            "source": "Assets/High Matters/Free American Sedans/Art/Materials/Lights/BaseLight/Rear_lights_Mat.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Vehicles/Materials/Rear_lights_Mat_URP_b2423f4e.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Vehicles",
+            "source": "Assets/High Matters/Free American Sedans/Art/Materials/Lights/BaseLight/StopSignal_Mat.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Vehicles/Materials/StopSignal_Mat_URP_6d66d6bc.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Vehicles",
+            "source": "Assets/High Matters/Free American Sedans/Art/Materials/Lights/BaseLight/Turn signal_L_Mat.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Vehicles/Materials/Turn_signal_L_Mat_URP_85c74f1b.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Vehicles",
+            "source": "Assets/High Matters/Free American Sedans/Art/Materials/Lights/BaseLight/Turn signal_R_Mat.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Vehicles/Materials/Turn_signal_R_Mat_URP_03cd7d24.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Vehicles",
+            "source": "Assets/High Matters/Free American Sedans/Art/Materials/Lights/Police_Light/PoliceLight_Blue_Mat.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Vehicles/Materials/PoliceLight_Blue_Mat_URP_62f13edb.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Vehicles",
+            "source": "Assets/High Matters/Free American Sedans/Art/Materials/Lights/Police_Light/PoliceLight_Red_Mat.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Vehicles/Materials/PoliceLight_Red_Mat_URP_a750ebcb.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Vehicles",
+            "source": "Assets/High Matters/Free American Sedans/Art/Materials/Lights/Police_Light/PoliceLightDetailMat.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Vehicles/Materials/PoliceLightDetailMat_URP_b6305993.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Vehicles",
+            "source": "Assets/High Matters/Free American Sedans/Art/Materials/Lights/Police_Light/PoliceSearchLight_Mat.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Vehicles/Materials/PoliceSearchLight_Mat_URP_2bedd27f.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Vehicles",
+            "source": "Assets/High Matters/Free American Sedans/Art/Materials/Police_Mat.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Vehicles/Materials/Police_Mat_URP_4953ac98.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Vehicles",
+            "source": "Assets/High Matters/Free American Sedans/Art/Materials/Taxi_Mat.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Vehicles/Materials/Taxi_Mat_URP_626097ae.mat",
+            "sourceShader": "Standard",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        },
+        {
+            "category": "Vehicles",
+            "source": "Assets/Old Sign Roads/Materials/road_signs.mat",
+            "destination": "Assets/URP_Migrated/UserLibrary/Vehicles/Materials/road_signs_URP_1e3ee960.mat",
+            "sourceShader": "Standard (Specular setup)",
+            "destinationShader": "Universal Render Pipeline/Lit",
+            "note": "Conversion URP standard."
+        }
+    ],
+    "prefabs": [
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Buildings/building_1.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Prefabs/building_1_URP_c498cca4.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "1 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Buildings/building_3.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Prefabs/building_3_URP_bbdea19c.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "1 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Buildings/building_5.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Prefabs/building_5_URP_5a69eea0.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "1 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Buildings/building_6.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Prefabs/building_6_URP_bf23b65b.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "3 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Buildings/building_7.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Prefabs/building_7_URP_842068bc.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "3 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Buildings/building_8.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Prefabs/building_8_URP_665a8eea.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "5 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Decorations/chair.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Prefabs/chair_URP_16cef30e.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "1 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Decorations/fence_1.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Prefabs/fence_1_URP_3152f11c.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Decorations/fence_2.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Prefabs/fence_2_URP_d22842b1.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Decorations/patio_platform.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Prefabs/patio_platform_URP_33a261d8.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/European Buildings/Decorations/umbrella.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Prefabs/umbrella_URP_96a4980d.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/basement_big.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Prefabs/basement_big_URP_da01c213.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/basement_mid.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Prefabs/basement_mid_URP_a9dbba81.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/concrete_block.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Prefabs/concrete_block_URP_ef48b369.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "1 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/demo_city_by_versatile_studio.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Prefabs/demo_city_by_versatile_studio_URP_7177e3a2.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "282 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/highway_support.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Prefabs/highway_support_URP_40940bca.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "5 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/mid_house_1.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Prefabs/mid_house_1_URP_43db02ff.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "4 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/mid_house_1_2.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Prefabs/mid_house_1_2_URP_7b18a26a.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "4 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/mid_house_2.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Prefabs/mid_house_2_URP_c7c60e51.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "4 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/mid_house_3.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Prefabs/mid_house_3_URP_2d024745.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "4 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/mid_house_4.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Prefabs/mid_house_4_URP_7d073e69.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "4 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/mid_house_4_2.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Prefabs/mid_house_4_2_URP_c87b8809.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "4 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Buildings",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/mid_house_5.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Buildings/Prefabs/mid_house_5_URP_7d7405aa.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "4 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Commercial",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/basement_small.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Commercial/Prefabs/basement_small_URP_6b8426a3.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Commercial",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/factory_building_big.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Commercial/Prefabs/factory_building_big_URP_bf1a4f91.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "5 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Commercial",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/factory_building_big_bgr.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Commercial/Prefabs/factory_building_big_bgr_URP_3ca9091c.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Commercial",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/factory_building_small.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Commercial/Prefabs/factory_building_small_URP_edd09644.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "5 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Commercial",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/factory_building_small_bgr.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Commercial/Prefabs/factory_building_small_bgr_URP_6d08a1d2.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Commercial",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/factory_chimney-stalk.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Commercial/Prefabs/factory_chimney-stalk_URP_133f85d5.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "1 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Commercial",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/office_building_1.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Commercial/Prefabs/office_building_1_URP_4785cc4f.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "17 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Commercial",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/office_building_1_bgr.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Commercial/Prefabs/office_building_1_bgr_URP_e1f6abdb.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Commercial",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/office_building_1_with_base.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Commercial/Prefabs/office_building_1_with_base_URP_7530a0ee.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "34 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Commercial",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/office_building_2.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Commercial/Prefabs/office_building_2_URP_e1b0edfc.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "13 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Commercial",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/office_building_2_bgr.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Commercial/Prefabs/office_building_2_bgr_URP_31672c08.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Commercial",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/office_building_2_with_base.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Commercial/Prefabs/office_building_2_with_base_URP_7fb399c7.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "43 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Commercial",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/office_building_3.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Commercial/Prefabs/office_building_3_URP_b39fded4.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "13 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Commercial",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/office_building_3_bgr.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Commercial/Prefabs/office_building_3_bgr_URP_31c77d43.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Commercial",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/office_building_3_with_base.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Commercial/Prefabs/office_building_3_with_base_URP_f5c35b44.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "33 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Commercial",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/office_building_4.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Commercial/Prefabs/office_building_4_URP_7be46f75.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "17 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Commercial",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/office_building_4_bgr.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Commercial/Prefabs/office_building_4_bgr_URP_b8720be0.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Commercial",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/office_building_4_with_base.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Commercial/Prefabs/office_building_4_with_base_URP_dd0440e3.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "53 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Commercial",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/small_house_1.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Commercial/Prefabs/small_house_1_URP_40d92498.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "4 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Commercial",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/small_house_2.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Commercial/Prefabs/small_house_2_URP_772877ae.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "4 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Commercial",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/small_house_3.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Commercial/Prefabs/small_house_3_URP_81e2b43d.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "4 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Nature",
+            "source": "Assets/European Buildings/Decorations/street_lamp_1.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Nature/Prefabs/street_lamp_1_URP_ec8bec4b.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "1 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Nature",
+            "source": "Assets/European Buildings/Decorations/street_lamp_2.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Nature/Prefabs/street_lamp_2_URP_13f1aacb.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Nature",
+            "source": "Assets/European Buildings/Decorations/street_lamp_3.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Nature/Prefabs/street_lamp_3_URP_e59398fb.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Nature",
+            "source": "Assets/SpaceZeta_StreetLamps2/Prefabs/StreetLampRound1A.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Nature/Prefabs/StreetLampRound1A_URP_acb87ab3.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "1 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Nature",
+            "source": "Assets/SpaceZeta_StreetLamps2/Prefabs/StreetLampRound1B.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Nature/Prefabs/StreetLampRound1B_URP_24fa3efc.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "1 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Nature",
+            "source": "Assets/SpaceZeta_StreetLamps2/Prefabs/StreetLampRound2A.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Nature/Prefabs/StreetLampRound2A_URP_af45a596.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "1 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Nature",
+            "source": "Assets/SpaceZeta_StreetLamps2/Prefabs/StreetLampRound2B.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Nature/Prefabs/StreetLampRound2B_URP_a7eb6df8.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "1 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Nature",
+            "source": "Assets/Tree.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Nature/Prefabs/Tree_URP_54bbdf6c.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "1 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Nature",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/hedge_with_base.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Nature/Prefabs/hedge_with_base_URP_9adb3beb.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Nature",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/tree_1.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Nature/Prefabs/tree_1_URP_10958914.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Nature",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/tree_2.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Nature/Prefabs/tree_2_URP_df4fda75.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Nature",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/tree_3.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Nature/Prefabs/tree_3_URP_874cf236.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/European Buildings/Decorations/road.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Prefabs/road_URP_123e374d.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "3 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/European Buildings/Decorations/road_crosswalk.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Prefabs/road_crosswalk_URP_451e98ee.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "3 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/European Buildings/Decorations/road_intersection_L.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Prefabs/road_intersection_L_URP_101f24e6.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "3 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/European Buildings/Decorations/road_intersection_T.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Prefabs/road_intersection_T_URP_6ed38534.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "3 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/European Buildings/Decorations/road_intersection_X.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Prefabs/road_intersection_X_URP_75f3f3da.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "3 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Roads",
+            "source": "Assets/European Buildings/Decorations/road_stop.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Roads/Prefabs/road_stop_URP_f89cc3a3.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "3 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Signs",
+            "source": "Assets/European Buildings/Decorations/sign_1.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Signs/Prefabs/sign_1_URP_94e2fe4d.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Signs",
+            "source": "Assets/European Buildings/Decorations/sign_2.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Signs/Prefabs/sign_2_URP_2a1fff64.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Signs",
+            "source": "Assets/European Buildings/Decorations/sign_3.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Signs/Prefabs/sign_3_URP_df3e7787.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Signs",
+            "source": "Assets/European Buildings/Decorations/sign_4.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Signs/Prefabs/sign_4_URP_79ccfbca.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Signs",
+            "source": "Assets/European Buildings/Decorations/sign_5.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Signs/Prefabs/sign_5_URP_479d77b0.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Signs",
+            "source": "Assets/Old Sign Roads/Prefabs/road sign_iron_road_stop.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Signs/Prefabs/road_sign_iron_road_stop_URP_8e620424.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "1 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Signs",
+            "source": "Assets/Old Sign Roads/Prefabs/road sign_left.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Signs/Prefabs/road_sign_left_URP_eea5ac9a.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "1 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Signs",
+            "source": "Assets/Old Sign Roads/Prefabs/road sign_main.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Signs/Prefabs/road_sign_main_URP_f9c39082.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "1 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Signs",
+            "source": "Assets/Old Sign Roads/Prefabs/road_sign_60_limit.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Signs/Prefabs/road_sign_60_limit_URP_a1188a2d.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "1 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Signs",
+            "source": "Assets/Old Sign Roads/Prefabs/road_sign_child_stop.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Signs/Prefabs/road_sign_child_stop_URP_a120585e.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "1 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Signs",
+            "source": "Assets/Old Sign Roads/Prefabs/road_sign_crosswalk.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Signs/Prefabs/road_sign_crosswalk_URP_3170b261.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "1 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Signs",
+            "source": "Assets/Old Sign Roads/Prefabs/road_sign_metal_pole.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Signs/Prefabs/road_sign_metal_pole_URP_54e19e1f.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "1 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Signs",
+            "source": "Assets/Old Sign Roads/Prefabs/road_sign_stop_1.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Signs/Prefabs/road_sign_stop_1_URP_3a7781e2.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "1 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Signs",
+            "source": "Assets/Old Sign Roads/Prefabs/road_sign_stop_2.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Signs/Prefabs/road_sign_stop_2_URP_d2526842.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "1 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Signs",
+            "source": "Assets/Old Sign Roads/Prefabs/road_sign_stop_3.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Signs/Prefabs/road_sign_stop_3_URP_7b65474f.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "1 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "StreetFurniture",
+            "source": "Assets/European Buildings/Decorations/bench_1_v_1.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/StreetFurniture/Prefabs/bench_1_v_1_URP_f546f1c1.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "StreetFurniture",
+            "source": "Assets/European Buildings/Decorations/bench_1_v_2.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/StreetFurniture/Prefabs/bench_1_v_2_URP_59f0b1a8.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "StreetFurniture",
+            "source": "Assets/European Buildings/Decorations/bench_1_v_3.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/StreetFurniture/Prefabs/bench_1_v_3_URP_60f3bd7d.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "StreetFurniture",
+            "source": "Assets/European Buildings/Decorations/bench_2_v_1.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/StreetFurniture/Prefabs/bench_2_v_1_URP_2757b961.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "1 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "StreetFurniture",
+            "source": "Assets/European Buildings/Decorations/bench_2_v_2.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/StreetFurniture/Prefabs/bench_2_v_2_URP_518800a8.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "StreetFurniture",
+            "source": "Assets/European Buildings/Decorations/bench_2_v_3.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/StreetFurniture/Prefabs/bench_2_v_3_URP_76d90a01.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "StreetFurniture",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/bench.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/StreetFurniture/Prefabs/bench_URP_c3cbe8ec.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "1 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "StreetFurniture",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/building_lamp_blue.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/StreetFurniture/Prefabs/building_lamp_blue_URP_628666fe.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "StreetFurniture",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/building_lamp_orange.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/StreetFurniture/Prefabs/building_lamp_orange_URP_357f88a2.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "StreetFurniture",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/building_lamp_pink.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/StreetFurniture/Prefabs/building_lamp_pink_URP_58e1cde5.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "StreetFurniture",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/building_lamp_white.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/StreetFurniture/Prefabs/building_lamp_white_URP_b680464f.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "StreetFurniture",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/lamp_pole_dual_blue.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/StreetFurniture/Prefabs/lamp_pole_dual_blue_URP_d647b1b9.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "StreetFurniture",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/lamp_pole_dual_orange.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/StreetFurniture/Prefabs/lamp_pole_dual_orange_URP_e558a9b2.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "StreetFurniture",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/lamp_pole_dual_pink.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/StreetFurniture/Prefabs/lamp_pole_dual_pink_URP_44291702.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "StreetFurniture",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/lamp_pole_dual_white.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/StreetFurniture/Prefabs/lamp_pole_dual_white_URP_7e242a9c.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "StreetFurniture",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/lamp_pole_single_blue.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/StreetFurniture/Prefabs/lamp_pole_single_blue_URP_44d79838.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "StreetFurniture",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/lamp_pole_single_orange.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/StreetFurniture/Prefabs/lamp_pole_single_orange_URP_afd1bb20.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "StreetFurniture",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/lamp_pole_single_pink.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/StreetFurniture/Prefabs/lamp_pole_single_pink_URP_5ca66ec6.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "StreetFurniture",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/lamp_pole_single_white.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/StreetFurniture/Prefabs/lamp_pole_single_white_URP_84a162b4.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "StreetFurniture",
+            "source": "Assets/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/lamp_pole_small.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/StreetFurniture/Prefabs/lamp_pole_small_URP_dfdd0cca.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "2 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Vehicles",
+            "source": "Assets/High Matters/Free American Sedans/Prefabs/Car.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Vehicles/Prefabs/Car_URP_ccfd6a4c.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "30 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Vehicles",
+            "source": "Assets/High Matters/Free American Sedans/Prefabs/Car_stylized.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Vehicles/Prefabs/Car_stylized_URP_21bfa11b.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "12 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Vehicles",
+            "source": "Assets/High Matters/Free American Sedans/Prefabs/Police.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Vehicles/Prefabs/Police_URP_4286c463.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "36 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Vehicles",
+            "source": "Assets/High Matters/Free American Sedans/Prefabs/Police_stylized.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Vehicles/Prefabs/Police_stylized_URP_4577e7d6.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "18 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Vehicles",
+            "source": "Assets/High Matters/Free American Sedans/Prefabs/Taxi.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Vehicles/Prefabs/Taxi_URP_28bf17ea.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "34 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Vehicles",
+            "source": "Assets/High Matters/Free American Sedans/Prefabs/Taxi_stylized.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Vehicles/Prefabs/Taxi_stylized_URP_143ed098.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "14 emplacement(s) de matériau remappé(s)."
+        },
+        {
+            "category": "Vehicles",
+            "source": "Assets/Old Sign Roads/Prefabs/road_sign_bus_stop.prefab",
+            "destination": "Assets/URP_Migrated/UserLibrary/Vehicles/Prefabs/road_sign_bus_stop_URP_04ce9f6a.prefab",
+            "sourceShader": "",
+            "destinationShader": "",
+            "note": "1 emplacement(s) de matériau remappé(s)."
+        }
+    ],
+    "approximations": [],
+    "impossible": [],
+    "notes": []
+}

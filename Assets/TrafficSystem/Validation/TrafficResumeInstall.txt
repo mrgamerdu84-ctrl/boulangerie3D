@@ -1,0 +1,13 @@
+Traffic resume install 2026-08-14T00:34:58.8561884+02:00
+Scene: Assets/BOULANGERIE.unity
+BakeryEnvironmentV2 modified: NO
+Existing roads/buildings/park modified: NO
+Backup: Assets/SceneBackups/BOULANGERIE_before_traffic_resume_20260814_003458.unity
+Preserved existing system: cars=4, vehicleRoutes=2, pedestrianRoutes=3, crosswalks=2
+Pedestrian prefab: Assets/URP_Migrated/UserLibrary/Pedestrians/Prefabs/npc_csl_00_character_01f_01_URP_Mobile.prefab (material slots remapped=35, LODGroups=1)
+Pedestrian prefab: Assets/URP_Migrated/UserLibrary/Pedestrians/Prefabs/npc_csl_00_character_01f_02_URP_Mobile.prefab (material slots remapped=35, LODGroups=1)
+Pedestrian prefab: Assets/URP_Migrated/UserLibrary/Pedestrians/Prefabs/npc_csl_00_character_01m_03_URP_Mobile.prefab (material slots remapped=35, LODGroups=1)
+Pedestrian prefab: Assets/URP_Migrated/UserLibrary/Pedestrians/Prefabs/npc_csl_00_character_02m_01_URP_Mobile.prefab (material slots remapped=45, LODGroups=1)
+Pedestrian pool already contained agents; no duplicate was created.
+Road-sign hierarchy children=0, traffic-light hierarchy children=0, functional controls preserved=0.
+IMPORTANT: RoadSigns and TrafficLights are genuinely empty in the current scene; no invisible/fake STOP or light was invented.

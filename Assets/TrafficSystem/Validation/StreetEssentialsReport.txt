@@ -1,0 +1,36 @@
+Street essentials installation 2026-08-14T01:26:20.0502556+02:00
+Scene=Assets/BOULANGERIE.unity
+Backup=Assets/SceneBackups/BOULANGERIE_Before_StreetEssentials_20260814_012601.unity
+ADDED trafficLights=4 trees=6 streetLights=12
+TOTAL directChildren trafficLights=4 treesAndNature=8 streetLights=16
+BEFORE directChildren trafficLights=0 treesAndNature=2 streetLights=4
+BakerySignature=bd4a1c11ef97a3dca5f83e4e39272fb01baf8e134847977a8b18fc0d51b825d7 UNCHANGED=true
+ProtectedSceneSignature=e27817dd1ed34c0b7ee4718c3a5797827bfe8fe7c8639e24efbe2aafad6aa4a6 UNCHANGED=true
+Validation:
+PASS visible=22/22, grounded=true, bakeryOverlap=0, crosswalkOverlap=0, URP=true, spacing=true
+Traffic lights:
+Codex_TrafficLight_NE_SW pos=(19.700, 0.100, 16.600) rot=(0.0, 270.0, 0.0) bounds=(19.683, 1.820, 16.600)/(0.475, 3.440, 0.640)
+Codex_TrafficLight_NE_SE pos=(36.300, 0.100, 16.600) rot=(0.0, 180.0, 0.0) bounds=(36.300, 1.820, 16.583)/(0.640, 3.440, 0.475)
+Codex_TrafficLight_NE_NE pos=(36.300, 0.100, 32.700) rot=(0.0, 90.0, 0.0) bounds=(36.318, 1.820, 32.700)/(0.475, 3.440, 0.640)
+Codex_TrafficLight_NE_NW pos=(19.700, 0.100, 32.700) rot=(0.0, 0.0, 0.0) bounds=(19.700, 1.820, 32.718)/(0.640, 3.440, 0.475)
+Trees:
+Codex_Tree_SouthPark_01 pos=(-15.000, 0.310, -68.000) rot=(0.0, 12.0, 0.0) bounds=(-14.976, 3.583, -68.025)/(2.423, 7.005, 2.418)
+Codex_Tree_SouthPark_02 pos=(15.000, 0.295, -68.000) rot=(0.0, 137.0, 0.0) bounds=(14.968, 3.354, -68.005)/(2.697, 6.548, 2.696)
+Codex_Tree_SouthPark_03 pos=(15.000, 0.305, -44.500) rot=(0.0, 248.0, 0.0) bounds=(15.007, 3.506, -44.467)/(2.597, 6.853, 2.601)
+Codex_Tree_WestPark_01 pos=(-62.000, 0.300, -7.000) rot=(0.0, 32.0, 0.0) bounds=(-61.987, 3.430, -7.030)/(2.691, 6.701, 2.689)
+Codex_Tree_WestPark_02 pos=(-61.000, 0.310, 5.500) rot=(0.0, 181.0, 0.0) bounds=(-61.028, 3.583, 5.520)/(2.079, 7.005, 2.073)
+Codex_Tree_WestPark_03 pos=(-56.000, 0.290, 16.000) rot=(0.0, 292.0, 0.0) bounds=(-55.974, 3.278, 16.018)/(2.424, 6.396, 2.427)
+Street lights:
+Codex_Lamp_Main_01 pos=(-20.000, 0.100, -11.050) rot=(0.0, 0.0, 0.0) bounds=(-20.000, 2.065, -11.079)/(0.571, 3.930, 0.543)
+Codex_Lamp_Main_02 pos=(20.000, 0.100, -11.050) rot=(0.0, 180.0, 0.0) bounds=(20.000, 2.065, -11.021)/(0.571, 3.930, 0.543)
+Codex_Lamp_Intersection_01 pos=(19.600, 0.100, 11.800) rot=(0.0, 0.0, 0.0) bounds=(19.600, 2.065, 11.771)/(0.571, 3.930, 0.543)
+Codex_Lamp_Intersection_02 pos=(40.000, 0.100, 33.000) rot=(0.0, 180.0, 0.0) bounds=(40.000, 2.065, 33.029)/(0.571, 3.930, 0.543)
+Codex_Lamp_WestPark_South_01 pos=(-60.000, 0.100, -10.800) rot=(0.0, 0.0, 0.0) bounds=(-60.000, 2.065, -10.829)/(0.571, 3.930, 0.543)
+Codex_Lamp_WestPark_South_02 pos=(-46.000, 0.100, -10.800) rot=(0.0, 0.0, 0.0) bounds=(-46.000, 2.065, -10.829)/(0.571, 3.930, 0.543)
+Codex_Lamp_WestPark_North_01 pos=(-60.000, 0.100, 17.200) rot=(0.0, 180.0, 0.0) bounds=(-60.000, 2.065, 17.229)/(0.571, 3.930, 0.543)
+Codex_Lamp_WestPark_North_02 pos=(-46.000, 0.100, 17.200) rot=(0.0, 180.0, 0.0) bounds=(-46.000, 2.065, 17.229)/(0.571, 3.930, 0.543)
+Codex_Lamp_SouthPark_South_01 pos=(-15.000, 0.100, -76.700) rot=(0.0, 0.0, 0.0) bounds=(-15.000, 2.065, -76.729)/(0.571, 3.930, 0.543)
+Codex_Lamp_SouthPark_South_02 pos=(15.000, 0.100, -76.700) rot=(0.0, 180.0, 0.0) bounds=(15.000, 2.065, -76.671)/(0.571, 3.930, 0.543)
+Codex_Lamp_SouthPark_West pos=(-20.700, 0.100, -60.000) rot=(0.0, 90.0, 0.0) bounds=(-20.729, 2.065, -60.000)/(0.543, 3.930, 0.571)
+Codex_Lamp_SouthPark_East pos=(20.700, 0.100, -60.000) rot=(0.0, 270.0, 0.0) bounds=(20.729, 2.065, -60.000)/(0.543, 3.930, 0.571)
+Screenshots=Assets/TrafficSystem/Validation/StreetEssentials_Overview.png;Assets/TrafficSystem/Validation/StreetEssentials_Intersection.png;Assets/TrafficSystem/Validation/StreetEssentials_Parks.png

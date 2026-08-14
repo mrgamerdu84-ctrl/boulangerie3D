@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: dd5e75bc6f764054a966ea21f78864ac
+timeCreated: 1479500899
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 175172
+  packageName: o3n UMA Races Stunner Jane & John Standard Render Pipeline
+  packageVersion: 1.11
+  assetPath: Assets/o3n/UMARaces/Stunner/ColorTables/StSimpleClothColorTable.asset
+  uploadId: 563649

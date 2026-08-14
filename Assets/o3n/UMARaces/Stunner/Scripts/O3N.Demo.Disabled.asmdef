@@ -1,0 +1,16 @@
+{
+  "name": "O3N.Demo.Disabled",
+  "rootNamespace": "",
+  "references": [],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": false,
+  "defineConstraints": [
+    "BOULANGERIE_ENABLE_O3N_DEMO"
+  ],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

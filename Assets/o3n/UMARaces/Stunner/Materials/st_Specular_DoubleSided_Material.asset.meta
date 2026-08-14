@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: efad54a2a927f874bb1c69ce36d04dfc
+timeCreated: 1518975984
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 175172
+  packageName: o3n UMA Races Stunner Jane & John Standard Render Pipeline
+  packageVersion: 1.11
+  assetPath: Assets/o3n/UMARaces/Stunner/Materials/st_Specular_DoubleSided_Material.asset
+  uploadId: 563649

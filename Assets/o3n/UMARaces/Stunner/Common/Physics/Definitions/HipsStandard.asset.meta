@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: eb8dc7c772415dc4289bc16de4b9a6b1
+timeCreated: 1508361583
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 175172
+  packageName: o3n UMA Races Stunner Jane & John Standard Render Pipeline
+  packageVersion: 1.11
+  assetPath: Assets/o3n/UMARaces/Stunner/Common/Physics/Definitions/HipsStandard.asset
+  uploadId: 563649

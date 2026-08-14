@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ff54037a0ed51e14394f655d15f47f4f
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 175172
+  packageName: o3n UMA Races Stunner Jane & John Standard Render Pipeline
+  packageVersion: 1.11
+  assetPath: Assets/o3n/UMARaces/Stunner/Materials/st_Fade_Double_Sided_Material.mat
+  uploadId: 563649

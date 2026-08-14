@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 41819f1f175ecb845881802519b5cfac
+timeCreated: 1484012734
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 175172
+  packageName: o3n UMA Races Stunner Jane & John Standard Render Pipeline
+  packageVersion: 1.11
+  assetPath: Assets/o3n/UMARaces/Stunner/ColorTables/StHumanEyesScaleraColorTable.asset
+  uploadId: 563649
