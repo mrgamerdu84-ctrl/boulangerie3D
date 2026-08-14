@@ -37,9 +37,8 @@ namespace Boulangerie3D.Traffic
                 if (kind != TrafficControlKind.TrafficLight)
                     return TrafficLightState.Green;
 
-                // Keep the old green+red total cycle unchanged so existing phaseOffset
-                // values in the Unity scene remain synchronised. Yellow occupies the end
-                // of the previously-authored green phase instead of lengthening the cycle.
+                // Preserve the original green+red cycle so existing phase offsets in the
+                // authored Unity scene stay synchronised. Yellow uses the end of green.
                 float effectiveYellow = Mathf.Min(yellowDuration, Mathf.Max(0.5f, greenDuration - 0.5f));
                 float fullGreenEnd = Mathf.Max(0f, greenDuration - effectiveYellow);
                 float cycle = greenDuration + redDuration;
@@ -53,7 +52,7 @@ namespace Boulangerie3D.Traffic
             }
         }
 
-        // Kept for compatibility with existing scene/scripts.
+        // Compatibility helpers used by the existing traffic code.
         public bool IsRed => kind == TrafficControlKind.TrafficLight && LightState == TrafficLightState.Red;
         public bool IsYellow => kind == TrafficControlKind.TrafficLight && LightState == TrafficLightState.Yellow;
         public bool IsGreen => kind != TrafficControlKind.TrafficLight || LightState == TrafficLightState.Green;
@@ -79,8 +78,13 @@ namespace Boulangerie3D.Traffic
                 return false;
 
             travelDirection.Normalize();
+
+            // Some authored STOP/light objects face toward approaching traffic while
+            // others face in the same direction as traffic. Accept both conventions.
+            // Position, ahead distance and lane tolerance still keep the control local
+            // to the correct approach instead of making it a scene-wide blocker.
             if (controlForward.sqrMagnitude > 0.01f &&
-                Vector3.Dot(controlForward.normalized, travelDirection) < 0.55f)
+                Mathf.Abs(Vector3.Dot(controlForward.normalized, travelDirection)) < 0.55f)
                 return false;
 
             Vector3 delta = transform.position - position;
