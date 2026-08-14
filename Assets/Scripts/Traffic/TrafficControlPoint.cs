@@ -16,16 +16,25 @@ namespace Boulangerie3D.Traffic
         Red
     }
 
+    public enum TrafficLightAxis
+    {
+        Auto,
+        X,
+        Z
+    }
+
     public sealed class TrafficControlPoint : MonoBehaviour
     {
         [SerializeField] private TrafficControlKind kind;
         [SerializeField, Min(1f)] private float detectionDistance = 7f;
         [SerializeField, Min(1f)] private float laneTolerance = 2.75f;
-        [SerializeField, Min(2f)] private float greenDuration = 8f;
-        [SerializeField, Min(0.5f)] private float yellowDuration = 2f;
-        [SerializeField, Min(2f)] private float redDuration = 8f;
+
+        [Header("Coordinated traffic lights")]
+        [SerializeField] private TrafficLightAxis trafficAxis = TrafficLightAxis.Auto;
+        [SerializeField, Min(6f)] private float greenDuration = 12f;
+        [SerializeField, Min(1.5f)] private float yellowDuration = 3f;
+        [SerializeField, Range(0.5f, 3f)] private float allRedDuration = 1f;
         [SerializeField, Range(0.5f, 3f)] private float stopHoldDuration = 1f;
-        [SerializeField] private float phaseOffset;
 
         [Header("Visible traffic-light lamps")]
         [SerializeField] private Renderer[] redRenderers = new Renderer[0];
@@ -46,6 +55,13 @@ namespace Boulangerie3D.Traffic
 
         private void Awake()
         {
+            // Upgrade the old fast default values without overwriting any deliberately
+            // longer timing already authored in the Inspector.
+            if (greenDuration <= 8.01f)
+                greenDuration = 12f;
+            if (yellowDuration <= 2.01f)
+                yellowDuration = 3f;
+
             DiscoverLampRenderersIfNeeded();
             ApplyVisualState(true);
         }
@@ -65,6 +81,14 @@ namespace Boulangerie3D.Traffic
             kind = controlKind;
             detectionDistance = Mathf.Max(1f, detectDistance);
             laneTolerance = Mathf.Max(1f, tolerance);
+
+            if (kind == TrafficControlKind.TrafficLight)
+            {
+                greenDuration = Mathf.Max(12f, greenDuration);
+                yellowDuration = Mathf.Max(3f, yellowDuration);
+                allRedDuration = Mathf.Max(1f, allRedDuration);
+            }
+
             DiscoverLampRenderersIfNeeded();
             ApplyVisualState(true);
         }
@@ -76,16 +100,33 @@ namespace Boulangerie3D.Traffic
                 if (kind != TrafficControlKind.TrafficLight)
                     return TrafficLightState.Green;
 
-                // Preserve the original green+red cycle so existing phase offsets in the
-                // authored Unity scene stay synchronised. Yellow uses the end of green.
-                float effectiveYellow = Mathf.Min(yellowDuration, Mathf.Max(0.5f, greenDuration - 0.5f));
-                float fullGreenEnd = Mathf.Max(0f, greenDuration - effectiveYellow);
-                float cycle = greenDuration + redDuration;
-                float phase = Mathf.Repeat(Time.time + phaseOffset, cycle);
+                // One shared city-wide clock keeps perpendicular approaches mutually
+                // exclusive. X-facing and Z-facing roads never receive green together.
+                // Sequence: X green -> X yellow -> all red -> Z green -> Z yellow -> all red.
+                float green = Mathf.Max(6f, greenDuration);
+                float yellow = Mathf.Max(1.5f, yellowDuration);
+                float clearance = Mathf.Clamp(allRedDuration, 0.5f, 3f);
+                float halfCycle = green + yellow + clearance;
+                float cycle = halfCycle * 2f;
+                float phase = Mathf.Repeat(Time.time, cycle);
+                bool firstAxis = ResolveAxis() == TrafficLightAxis.X;
 
-                if (phase < fullGreenEnd)
+                if (firstAxis)
+                {
+                    if (phase < green)
+                        return TrafficLightState.Green;
+                    if (phase < green + yellow)
+                        return TrafficLightState.Yellow;
+                    return TrafficLightState.Red;
+                }
+
+                if (phase < halfCycle)
+                    return TrafficLightState.Red;
+
+                float secondPhase = phase - halfCycle;
+                if (secondPhase < green)
                     return TrafficLightState.Green;
-                if (phase < greenDuration)
+                if (secondPhase < green + yellow)
                     return TrafficLightState.Yellow;
                 return TrafficLightState.Red;
             }
@@ -128,6 +169,22 @@ namespace Boulangerie3D.Traffic
             float ahead = Vector3.Dot(delta, travelDirection);
             float lateral = (delta - travelDirection * ahead).magnitude;
             return ahead >= -0.5f && ahead <= detectionDistance && lateral < laneTolerance;
+        }
+
+        private TrafficLightAxis ResolveAxis()
+        {
+            if (trafficAxis != TrafficLightAxis.Auto)
+                return trafficAxis;
+
+            Vector3 forward = transform.forward;
+            forward.y = 0f;
+            if (forward.sqrMagnitude < 0.001f)
+                return TrafficLightAxis.Z;
+
+            // Opposite directions (+X/-X or +Z/-Z) belong to the same traffic phase.
+            return Mathf.Abs(forward.x) >= Mathf.Abs(forward.z)
+                ? TrafficLightAxis.X
+                : TrafficLightAxis.Z;
         }
 
         private void DiscoverLampRenderersIfNeeded()
