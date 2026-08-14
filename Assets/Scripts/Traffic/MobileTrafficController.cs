@@ -28,6 +28,10 @@ namespace Boulangerie3D.Traffic
 
         private void Awake()
         {
+            // Decorative traffic-light and STOP props are connected once before the
+            // controller caches its controls. Nothing is moved or modified in the scene.
+            TrafficControlAutoBinder.BindSceneControls();
+
             // Controls and reservation zones are inexpensive to discover once at startup.
             // This prevents stale/missing Inspector references from making cars ignore
             // traffic lights or intersections. There are no scene-wide searches per frame.
