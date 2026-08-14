@@ -22,6 +22,7 @@ namespace Boulangerie3D.Traffic
         private int targetIndex;
         private float speed;
         private TrafficControlPoint servedStop;
+        private TrafficControlPoint heldTrafficLight;
         private float stopTimer;
         private Rigidbody cachedBody;
         private readonly RaycastHit[] obstacleHits = new RaycastHit[12];
@@ -42,6 +43,13 @@ namespace Boulangerie3D.Traffic
             cachedBody.isKinematic = true;
             cachedBody.useGravity = false;
             cachedBody.interpolation = RigidbodyInterpolation.None;
+
+            // Slightly stronger defaults for the mobile traffic simulation. Existing
+            // deliberately stronger Inspector values are preserved.
+            if (braking <= 8.01f)
+                braking = 10f;
+            if (safetyDistance <= 7.01f)
+                safetyDistance = 8f;
         }
 
         public void Initialize(MobileTrafficController owner, TrafficRoutePath assignedRoute, int startIndex)
@@ -64,6 +72,7 @@ namespace Boulangerie3D.Traffic
 
             speed = 0f;
             servedStop = null;
+            heldTrafficLight = null;
             stopTimer = 0f;
             previousPosition = transform.position;
             distanceTravelled = 0f;
@@ -97,7 +106,36 @@ namespace Boulangerie3D.Traffic
             bool obstacleBlocked = HasObstacleAhead(forward);
             bool pedestrianBlocked = controller.CrosswalkRequiresStop(transform.position, forward, 9f);
 
-            TrafficControlPoint control = controller.FindBlockingControl(transform.position, forward);
+            TrafficControlPoint detectedControl = controller.FindBlockingControl(transform.position, forward);
+
+            // Once a red/yellow light has been detected in front of the vehicle, keep
+            // tracking that exact light while waiting. This prevents a route waypoint or
+            // a small steering change near the stop line from making the light disappear
+            // for one frame and allowing the car to run the red.
+            if (detectedControl != null && detectedControl.Kind == TrafficControlKind.TrafficLight)
+            {
+                float detectedAhead = detectedControl.DistanceAhead(transform.position, forward);
+                if (detectedAhead >= -0.25f && !detectedControl.IsGreen)
+                    heldTrafficLight = detectedControl;
+            }
+
+            if (heldTrafficLight != null)
+            {
+                float heldAhead = heldTrafficLight.DistanceAhead(transform.position, forward);
+
+                // Green releases the vehicle immediately. If the vehicle is already well
+                // beyond the line, also release so it never brakes inside the junction.
+                if (heldTrafficLight.IsGreen || heldAhead < -1.25f)
+                {
+                    heldTrafficLight = null;
+                }
+                else
+                {
+                    detectedControl = heldTrafficLight;
+                }
+            }
+
+            TrafficControlPoint control = detectedControl;
             bool controlRequiresStop = false;
             float controlDistance = float.MaxValue;
 
@@ -151,13 +189,11 @@ namespace Boulangerie3D.Traffic
             if (servedStop != null && Vector3.Distance(transform.position, servedStop.transform.position) > 10f)
                 servedStop = null;
 
-            // These reasons always keep their priority. Serving a STOP must never cancel
-            // a pedestrian, obstacle or lead-vehicle stop request.
             bool hardBlocked = followingBlocked || obstacleBlocked || pedestrianBlocked;
             bool intersectionBlocked = false;
 
-            // Reserve an intersection only when every earlier rule already allows movement.
-            // This avoids a car owning the junction while it is waiting at a red light or STOP.
+            // A vehicle waiting at a light/STOP cannot reserve the junction. The
+            // reservation is attempted only after all higher-priority rules allow travel.
             if (!hardBlocked && !controlRequiresStop)
             {
                 intersectionBlocked = !controller.CanProceedIntersection(
@@ -170,11 +206,15 @@ namespace Boulangerie3D.Traffic
 
             if (controlRequiresStop)
             {
-                // Brake progressively so the car reaches zero close to the authored stop line
-                // instead of stopping several metres too early.
+                // Progressive braking to zero before the authored control point.
                 float remaining = Mathf.Max(0f, controlDistance - stopLineBuffer);
                 float approachSpeed = Mathf.Sqrt(2f * Mathf.Max(0.1f, braking) * remaining);
                 desiredSpeed = Mathf.Min(desiredSpeed, approachSpeed);
+
+                // Inside the final metre, force a full stop instead of allowing tiny
+                // numerical movements that can creep the car through a red light.
+                if (remaining <= 0.08f)
+                    desiredSpeed = 0f;
             }
 
             float rate = desiredSpeed < speed ? braking : acceleration;
@@ -229,7 +269,6 @@ namespace Boulangerie3D.Traffic
                 if (hit.GetComponentInParent<CrosswalkPriorityZone>() != null)
                     continue;
 
-                // Road and sidewalk surfaces sit below the sensor and must not stop cars.
                 if (hit.bounds.max.y < origin.y - 0.25f)
                     continue;
 
@@ -251,6 +290,7 @@ namespace Boulangerie3D.Traffic
                 controller.ReleaseIntersectionReservations(this);
             speed = 0f;
             stopTimer = 0f;
+            heldTrafficLight = null;
         }
 
         private void SetPosition(Vector3 position)
