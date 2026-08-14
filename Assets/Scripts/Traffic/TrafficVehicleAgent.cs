@@ -121,7 +121,9 @@ namespace Boulangerie3D.Traffic
             {
                 float heldAhead = heldTrafficLight.DistanceAhead(transform.position, forward);
                 bool stillAffectsLane = heldTrafficLight.Affects(transform.position, forward);
-                if (heldTrafficLight.IsGreen || heldAhead < -0.9f || (!stillAffectsLane && heldAhead > 2f))
+                // A light is associated with a single approach.  As soon as the route
+                // changes direction through the junction it cannot keep braking this car.
+                if (heldTrafficLight.IsGreen || heldAhead < -0.9f || !stillAffectsLane)
                 {
                     if (committedTrafficLight == heldTrafficLight && heldAhead < -0.9f)
                         committedTrafficLight = null;
