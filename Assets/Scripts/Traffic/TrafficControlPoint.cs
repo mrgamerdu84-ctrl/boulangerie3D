@@ -49,9 +49,6 @@ namespace Boulangerie3D.Traffic
         private TrafficLightState lastVisualState;
         private bool visualStateInitialized;
 
-        // Runtime approach information. The visible pole can be several metres away from
-        // the lane, so vehicles are controlled from the intersection/crosswalk geometry,
-        // never from the decorative pole position.
         private bool hasRuntimeIntersection;
         private Vector3 runtimeIntersectionCenter;
         private TrafficLightAxis runtimeAxis = TrafficLightAxis.Auto;
@@ -148,34 +145,18 @@ namespace Boulangerie3D.Traffic
             hasRuntimeIntersection = true;
             runtimeIntersectionCenter = nearestCenter;
 
-            // Respect an axis explicitly configured in the Inspector. In Auto mode,
-            // use the signal orientation rather than its corner position: a pole is
-            // commonly placed diagonally from the junction centre, which made the
-            // old coordinate comparison assign it to the perpendicular road.
-            Vector3 signalForward = transform.forward;
-            signalForward.y = 0f;
-            runtimeAxis = trafficAxis != TrafficLightAxis.Auto
-                ? trafficAxis
-                : Mathf.Abs(signalForward.x) >= Mathf.Abs(signalForward.z)
-                    ? TrafficLightAxis.X
-                    : TrafficLightAxis.Z;
+            // Prefer the nearest pedestrian crossing around this junction to determine
+            // which approach this signal belongs to. This is much safer than using the
+            // pole position/orientation, especially for manually placed corner signals.
+            bool hasReferenceCrosswalk = false;
+            Bounds referenceCrosswalkBounds = new Bounds();
+            float referenceCrosswalkSqr = float.MaxValue;
 
-            runtimeApproachSign = runtimeAxis == TrafficLightAxis.X
-                ? (fromCenter.x >= 0f ? 1 : -1)
-                : (fromCenter.z >= 0f ? 1 : -1);
-
-            float centerCoordinate = AxisCoordinate(nearestCenter, runtimeAxis);
-            float intersectionExtent = AxisExtent(nearestBounds, runtimeAxis);
-
-            // Safe fallback: stop outside the intersection even if no crosswalk zone exists.
-            runtimeStopCoordinate = centerCoordinate +
-                runtimeApproachSign * (intersectionExtent + 1.25f);
-
-            // Prefer the actual crosswalk geometry. The line is placed outside its outer
-            // edge so the front of the vehicle never waits on the pedestrian crossing.
-            float bestCrosswalkScore = float.MaxValue;
             if (crosswalks != null)
             {
+                float maxApproachX = nearestBounds.extents.x + 8f;
+                float maxApproachZ = nearestBounds.extents.z + 8f;
+
                 for (int i = 0; i < crosswalks.Length; i++)
                 {
                     CrosswalkPriorityZone crosswalk = crosswalks[i];
@@ -189,31 +170,82 @@ namespace Boulangerie3D.Traffic
                     Bounds bounds = box.bounds;
                     Vector3 crossCenter = bounds.center;
                     crossCenter.y = 0f;
+                    Vector3 relative = crossCenter - nearestCenter;
 
-                    float crossCoordinate = AxisCoordinate(crossCenter, runtimeAxis);
-                    float outwardDistance = runtimeApproachSign *
-                        (crossCoordinate - centerCoordinate);
-
-                    // Only consider the crossing on this approach, close to this junction.
-                    if (outwardDistance < -0.5f ||
-                        outwardDistance > intersectionExtent + 8f)
+                    if (Mathf.Abs(relative.x) > maxApproachX ||
+                        Mathf.Abs(relative.z) > maxApproachZ)
                         continue;
 
-                    float perpendicularDistance = Mathf.Abs(
-                        PerpendicularCoordinate(crossCenter, runtimeAxis) -
-                        PerpendicularCoordinate(nearestCenter, runtimeAxis));
-                    float perpendicularExtent = runtimeAxis == TrafficLightAxis.X
-                        ? nearestBounds.extents.z
-                        : nearestBounds.extents.x;
-                    if (perpendicularDistance > perpendicularExtent + 5f)
+                    float sqr = (crossCenter - position).sqrMagnitude;
+                    if (sqr >= referenceCrosswalkSqr)
                         continue;
 
-                    float score = Mathf.Abs(outwardDistance - intersectionExtent);
-                    if (score >= bestCrosswalkScore)
-                        continue;
+                    referenceCrosswalkSqr = sqr;
+                    referenceCrosswalkBounds = bounds;
+                    hasReferenceCrosswalk = true;
+                }
+            }
 
-                    bestCrosswalkScore = score;
-                    float crossExtent = AxisExtent(bounds, runtimeAxis);
+            if (trafficAxis != TrafficLightAxis.Auto)
+            {
+                runtimeAxis = trafficAxis;
+                runtimeApproachSign = runtimeAxis == TrafficLightAxis.X
+                    ? (fromCenter.x >= 0f ? 1 : -1)
+                    : (fromCenter.z >= 0f ? 1 : -1);
+            }
+            else if (hasReferenceCrosswalk)
+            {
+                Vector3 crossCenter = referenceCrosswalkBounds.center;
+                crossCenter.y = 0f;
+                Vector3 crossFromCenter = crossCenter - nearestCenter;
+
+                runtimeAxis = Mathf.Abs(crossFromCenter.x) >= Mathf.Abs(crossFromCenter.z)
+                    ? TrafficLightAxis.X
+                    : TrafficLightAxis.Z;
+                runtimeApproachSign = runtimeAxis == TrafficLightAxis.X
+                    ? (crossFromCenter.x >= 0f ? 1 : -1)
+                    : (crossFromCenter.z >= 0f ? 1 : -1);
+            }
+            else
+            {
+                // Last-resort fallback for intersections without a usable crosswalk zone.
+                Vector3 signalForward = transform.forward;
+                signalForward.y = 0f;
+                runtimeAxis = Mathf.Abs(signalForward.x) >= Mathf.Abs(signalForward.z)
+                    ? TrafficLightAxis.X
+                    : TrafficLightAxis.Z;
+                runtimeApproachSign = runtimeAxis == TrafficLightAxis.X
+                    ? (fromCenter.x >= 0f ? 1 : -1)
+                    : (fromCenter.z >= 0f ? 1 : -1);
+            }
+
+            float centerCoordinate = AxisCoordinate(nearestCenter, runtimeAxis);
+            float intersectionExtent = AxisExtent(nearestBounds, runtimeAxis);
+
+            runtimeStopCoordinate = centerCoordinate +
+                runtimeApproachSign * (intersectionExtent + 1.25f);
+
+            // If a reference crossing was found on this exact approach, stop outside its
+            // outer edge so the vehicle never waits on top of the pedestrian crossing.
+            if (hasReferenceCrosswalk)
+            {
+                Vector3 crossCenter = referenceCrosswalkBounds.center;
+                crossCenter.y = 0f;
+                float crossCoordinate = AxisCoordinate(crossCenter, runtimeAxis);
+                float outwardDistance = runtimeApproachSign *
+                    (crossCoordinate - centerCoordinate);
+                float perpendicularDistance = Mathf.Abs(
+                    PerpendicularCoordinate(crossCenter, runtimeAxis) -
+                    PerpendicularCoordinate(nearestCenter, runtimeAxis));
+                float perpendicularExtent = runtimeAxis == TrafficLightAxis.X
+                    ? nearestBounds.extents.z
+                    : nearestBounds.extents.x;
+
+                if (outwardDistance >= -0.5f &&
+                    outwardDistance <= intersectionExtent + 8f &&
+                    perpendicularDistance <= perpendicularExtent + 5f)
+                {
+                    float crossExtent = AxisExtent(referenceCrosswalkBounds, runtimeAxis);
                     runtimeStopCoordinate = crossCoordinate +
                         runtimeApproachSign * (crossExtent + 0.9f);
                 }
@@ -296,8 +328,6 @@ namespace Boulangerie3D.Traffic
                 if (travelAxis != ResolveAxis())
                     return false;
 
-                // Reject a stop line belonging to the opposite approach before any
-                // distance or lane test can associate it with this vehicle.
                 if (!MatchesRuntimeApproachDirection(travelDirection))
                     return false;
 
@@ -312,7 +342,6 @@ namespace Boulangerie3D.Traffic
                 if (distanceToLine < -0.9f || distanceToLine > detectionDistance)
                     return false;
 
-                // Lane filtering uses the road/intersection centre, not the roadside pole.
                 float lateral = Mathf.Abs(
                     PerpendicularCoordinate(position, runtimeAxis) -
                     PerpendicularCoordinate(runtimeIntersectionCenter, runtimeAxis));
