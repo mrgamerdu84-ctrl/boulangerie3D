@@ -20,8 +20,12 @@ namespace Boulangerie3D.Traffic
         {
             get
             {
-                if (!pedestrianRoute || waypoints == null || waypoints.Length < 2) return false;
-                for (int i = 0; i < waypoints.Length; i++) if (waypoints[i] == null) return false;
+                // A route can be valid whether it is used by vehicles or pedestrians.
+                // The previous implementation rejected every vehicle route because
+                // pedestrianRoute had to be true, which made route validation misleading.
+                if (waypoints == null || waypoints.Length < 2) return false;
+                for (int i = 0; i < waypoints.Length; i++)
+                    if (waypoints[i] == null) return false;
                 return true;
             }
         }
