@@ -31,6 +31,7 @@ namespace Boulangerie3D.Traffic
         private float distanceTravelled;
         private float stationaryDuration;
         private float longestStationaryDuration;
+        private int reportedDirectionErrorIndex = -1;
 
         public TrafficRoutePath Route => route;
         public float CurrentSpeed => speed;
@@ -83,6 +84,7 @@ namespace Boulangerie3D.Traffic
             distanceTravelled = 0f;
             stationaryDuration = 0f;
             longestStationaryDuration = 0f;
+            reportedDirectionErrorIndex = -1;
         }
 
         private void Update()
@@ -105,6 +107,27 @@ namespace Boulangerie3D.Traffic
             forward.y = 0f;
             if (forward.sqrMagnitude > 0.001f)
                 forward.Normalize();
+
+            if (!route.IsNextDirectionCoherent(
+                    transform.position,
+                    transform.forward,
+                    targetIndex,
+                    out float waypointAlignment))
+            {
+                speed = 0f;
+                if (reportedDirectionErrorIndex != targetIndex)
+                {
+                    Debug.LogError(
+                        $"[TrafficRouteValidation] Véhicule '{name}' arrêté : direction incohérente vers " +
+                        $"{route.DescribeWaypoint(targetIndex)} sur la route '{route.name}' " +
+                        $"(alignement {waypointAlignment:F2}).",
+                        route);
+                    reportedDirectionErrorIndex = targetIndex;
+                }
+                return;
+            }
+
+            reportedDirectionErrorIndex = -1;
 
             float leadDistance = controller.GetLeadVehicleDistance(this, forward, safetyDistance);
             bool followingBlocked = leadDistance < safetyDistance;
@@ -267,6 +290,7 @@ namespace Boulangerie3D.Traffic
             stationaryDuration = movement < 0.002f ? stationaryDuration + Time.deltaTime : 0f;
             longestStationaryDuration = Mathf.Max(longestStationaryDuration, stationaryDuration);
             previousPosition = transform.position;
+
         }
 
         private bool HasObstacleAhead(Vector3 forward)
@@ -316,6 +340,7 @@ namespace Boulangerie3D.Traffic
             stopTimer = 0f;
             heldTrafficLight = null;
             committedTrafficLight = null;
+            reportedDirectionErrorIndex = -1;
         }
 
         private void SetPosition(Vector3 position)

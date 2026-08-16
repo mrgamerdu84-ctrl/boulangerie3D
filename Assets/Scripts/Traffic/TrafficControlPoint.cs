@@ -148,16 +148,21 @@ namespace Boulangerie3D.Traffic
             hasRuntimeIntersection = true;
             runtimeIntersectionCenter = nearestCenter;
 
-            if (Mathf.Abs(fromCenter.x) >= Mathf.Abs(fromCenter.z))
-            {
-                runtimeAxis = TrafficLightAxis.X;
-                runtimeApproachSign = fromCenter.x >= 0f ? 1 : -1;
-            }
-            else
-            {
-                runtimeAxis = TrafficLightAxis.Z;
-                runtimeApproachSign = fromCenter.z >= 0f ? 1 : -1;
-            }
+            // Respect an axis explicitly configured in the Inspector. In Auto mode,
+            // use the signal orientation rather than its corner position: a pole is
+            // commonly placed diagonally from the junction centre, which made the
+            // old coordinate comparison assign it to the perpendicular road.
+            Vector3 signalForward = transform.forward;
+            signalForward.y = 0f;
+            runtimeAxis = trafficAxis != TrafficLightAxis.Auto
+                ? trafficAxis
+                : Mathf.Abs(signalForward.x) >= Mathf.Abs(signalForward.z)
+                    ? TrafficLightAxis.X
+                    : TrafficLightAxis.Z;
+
+            runtimeApproachSign = runtimeAxis == TrafficLightAxis.X
+                ? (fromCenter.x >= 0f ? 1 : -1)
+                : (fromCenter.z >= 0f ? 1 : -1);
 
             float centerCoordinate = AxisCoordinate(nearestCenter, runtimeAxis);
             float intersectionExtent = AxisExtent(nearestBounds, runtimeAxis);
@@ -291,12 +296,9 @@ namespace Boulangerie3D.Traffic
                 if (travelAxis != ResolveAxis())
                     return false;
 
-                float directionComponent = runtimeAxis == TrafficLightAxis.X
-                    ? travelDirection.x
-                    : travelDirection.z;
-
-                // The vehicle must actually be travelling toward this junction from this side.
-                if (directionComponent * runtimeApproachSign > -0.4f)
+                // Reject a stop line belonging to the opposite approach before any
+                // distance or lane test can associate it with this vehicle.
+                if (!MatchesRuntimeApproachDirection(travelDirection))
                     return false;
 
                 float positionCoordinate = AxisCoordinate(position, runtimeAxis);
@@ -328,6 +330,14 @@ namespace Boulangerie3D.Traffic
             float ahead = Vector3.Dot(delta, travelDirection);
             float lateralFallback = (delta - travelDirection * ahead).magnitude;
             return ahead >= -0.75f && ahead <= detectionDistance && lateralFallback <= laneTolerance;
+        }
+
+        private bool MatchesRuntimeApproachDirection(Vector3 travelDirection)
+        {
+            float directionComponent = runtimeAxis == TrafficLightAxis.X
+                ? travelDirection.x
+                : travelDirection.z;
+            return directionComponent * runtimeApproachSign <= -0.4f;
         }
 
         private TrafficLightAxis ResolveAxis()
