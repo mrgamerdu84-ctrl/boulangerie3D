@@ -23,7 +23,7 @@ namespace Boulangerie3D.Traffic
         Z
     }
 
-    public sealed class TrafficControlPoint : MonoBehaviour
+    public class TrafficControlPoint : MonoBehaviour
     {
         [SerializeField] private TrafficControlKind kind;
         [SerializeField, Min(1f)] private float detectionDistance = 7f;
@@ -33,8 +33,10 @@ namespace Boulangerie3D.Traffic
         [SerializeField] private TrafficLightAxis trafficAxis = TrafficLightAxis.Auto;
         [SerializeField, Min(6f)] private float greenDuration = 12f;
         [SerializeField, Min(1.5f)] private float yellowDuration = 3f;
+        [SerializeField, Min(8f)] private float redDuration = 16f;
         [SerializeField, Range(0.5f, 3f)] private float allRedDuration = 1f;
         [SerializeField, Range(0.5f, 3f)] private float stopHoldDuration = 1f;
+        [SerializeField, Min(1.25f)] private float fallbackStopOffset = 4f;
 
         [Header("Visible traffic-light lamps")]
         [SerializeField] private Renderer[] redRenderers = new Renderer[0];
@@ -54,17 +56,43 @@ namespace Boulangerie3D.Traffic
         private TrafficLightAxis runtimeAxis = TrafficLightAxis.Auto;
         private int runtimeApproachSign;
         private float runtimeStopCoordinate;
+        private string runtimeIntersectionName = string.Empty;
 
         public TrafficControlKind Kind => kind;
         public float DetectionDistance => detectionDistance;
         public float StopHoldDuration => stopHoldDuration;
-
-        private void Awake()
+        public float LaneTolerance => laneTolerance;
+        public bool HasRuntimeIntersection => hasRuntimeIntersection;
+        public TrafficLightAxis DetectedAxis => runtimeAxis;
+        public string DetectedDirection => runtimeApproachSign > 0
+            ? (runtimeAxis == TrafficLightAxis.X ? "X vers -X" : "Z vers -Z")
+            : runtimeApproachSign < 0
+                ? (runtimeAxis == TrafficLightAxis.X ? "-X vers +X" : "-Z vers +Z")
+                : "Non detecte";
+        public string AssociatedIntersection => runtimeIntersectionName;
+        public Vector3 LogicalStopLinePosition
         {
+            get
+            {
+                Vector3 value = runtimeIntersectionCenter;
+                if (runtimeAxis == TrafficLightAxis.X)
+                    value.x = runtimeStopCoordinate;
+                else if (runtimeAxis == TrafficLightAxis.Z)
+                    value.z = runtimeStopCoordinate;
+                return value;
+            }
+        }
+
+        protected virtual void Awake()
+        {
+            if (fallbackStopOffset <= 1.25f)
+                fallbackStopOffset = 4f;
+
             if (greenDuration <= 8.01f)
                 greenDuration = 12f;
             if (yellowDuration <= 2.01f)
                 yellowDuration = 3f;
+            redDuration = Mathf.Max(redDuration, greenDuration + yellowDuration + allRedDuration);
 
             DiscoverLampRenderersIfNeeded();
             ApplyVisualState(true);
@@ -101,27 +129,42 @@ namespace Boulangerie3D.Traffic
             TrafficIntersectionReservation[] intersections,
             CrosswalkPriorityZone[] crosswalks)
         {
+            if (intersections == null || intersections.Length == 0)
+            {
+                BindToNearestIntersection(new Bounds[0], crosswalks);
+                return;
+            }
+
+            var bounds = new List<Bounds>(intersections.Length);
+            for (int i = 0; i < intersections.Length; i++)
+                if (intersections[i] != null)
+                    bounds.Add(intersections[i].Bounds);
+
+            BindToNearestIntersection(bounds.ToArray(), crosswalks);
+        }
+
+        public void BindToNearestIntersection(
+            Bounds[] intersectionBounds,
+            CrosswalkPriorityZone[] crosswalks)
+        {
             hasRuntimeIntersection = false;
             runtimeAxis = TrafficLightAxis.Auto;
             runtimeApproachSign = 0;
             runtimeStopCoordinate = 0f;
+            runtimeIntersectionName = string.Empty;
 
-            if (intersections == null || intersections.Length == 0)
+            if (intersectionBounds == null || intersectionBounds.Length == 0)
                 return;
 
             Vector3 position = transform.position;
             position.y = 0f;
-            float nearestSqr = 24f * 24f;
+            float nearestSqr = float.MaxValue;
             Bounds nearestBounds = new Bounds();
             bool found = false;
 
-            for (int i = 0; i < intersections.Length; i++)
+            for (int i = 0; i < intersectionBounds.Length; i++)
             {
-                TrafficIntersectionReservation intersection = intersections[i];
-                if (intersection == null)
-                    continue;
-
-                Bounds bounds = intersection.Bounds;
+                Bounds bounds = intersectionBounds[i];
                 Vector3 center = bounds.center;
                 center.y = 0f;
                 float sqr = (center - position).sqrMagnitude;
@@ -222,8 +265,12 @@ namespace Boulangerie3D.Traffic
             float centerCoordinate = AxisCoordinate(nearestCenter, runtimeAxis);
             float intersectionExtent = AxisExtent(nearestBounds, runtimeAxis);
 
+            // When no CrosswalkPriorityZone exists on this approach, keep enough
+            // clearance for the complete painted crossing. Junction bounds often end
+            // near its centre, so the former 1.25 m offset stopped cars on the stripes.
             runtimeStopCoordinate = centerCoordinate +
-                runtimeApproachSign * (intersectionExtent + 1.25f);
+                runtimeApproachSign *
+                (intersectionExtent + Mathf.Max(1.25f, fallbackStopOffset));
 
             // If a reference crossing was found on this exact approach, stop outside its
             // outer edge so the vehicle never waits on top of the pedestrian crossing.
@@ -254,6 +301,88 @@ namespace Boulangerie3D.Traffic
             ApplyVisualState(true);
         }
 
+        protected void BindToIntersectionFromOrientation(
+            Bounds intersectionBounds,
+            string intersectionName,
+            CrosswalkPriorityZone[] crosswalks)
+        {
+            Vector3 forward = transform.forward;
+            forward.y = 0f;
+            hasRuntimeIntersection = false;
+            runtimeAxis = TrafficLightAxis.Auto;
+            runtimeApproachSign = 0;
+            runtimeStopCoordinate = 0f;
+            runtimeIntersectionName = string.Empty;
+
+            if (forward.sqrMagnitude < 0.001f)
+                return;
+
+            forward.Normalize();
+            runtimeAxis = Mathf.Abs(forward.x) >= Mathf.Abs(forward.z)
+                ? TrafficLightAxis.X
+                : TrafficLightAxis.Z;
+            float facingComponent = runtimeAxis == TrafficLightAxis.X ? forward.x : forward.z;
+            runtimeApproachSign = facingComponent >= 0f ? 1 : -1;
+            runtimeIntersectionCenter = intersectionBounds.center;
+            runtimeIntersectionCenter.y = 0f;
+            runtimeIntersectionName = intersectionName ?? string.Empty;
+            hasRuntimeIntersection = true;
+
+            float centerCoordinate = AxisCoordinate(runtimeIntersectionCenter, runtimeAxis);
+            float intersectionExtent = AxisExtent(intersectionBounds, runtimeAxis);
+            runtimeStopCoordinate = centerCoordinate + runtimeApproachSign *
+                (intersectionExtent + Mathf.Max(1.25f, fallbackStopOffset));
+
+            Bounds matchingCrosswalk = new Bounds();
+            bool foundCrosswalk = false;
+            float nearestSqr = float.MaxValue;
+            if (crosswalks != null)
+            {
+                for (int i = 0; i < crosswalks.Length; i++)
+                {
+                    CrosswalkPriorityZone zone = crosswalks[i];
+                    if (zone == null)
+                        continue;
+
+                    BoxCollider box = zone.GetComponent<BoxCollider>();
+                    if (box == null)
+                        continue;
+
+                    Bounds bounds = box.bounds;
+                    Vector3 relative = bounds.center - runtimeIntersectionCenter;
+                    relative.y = 0f;
+                    float axisOffset = AxisCoordinate(relative, runtimeAxis);
+                    float perpendicularOffset = Mathf.Abs(PerpendicularCoordinate(relative, runtimeAxis));
+                    float perpendicularExtent = runtimeAxis == TrafficLightAxis.X
+                        ? intersectionBounds.extents.z
+                        : intersectionBounds.extents.x;
+
+                    if (runtimeApproachSign * axisOffset < -0.5f ||
+                        Mathf.Abs(axisOffset) > intersectionExtent + 8f ||
+                        perpendicularOffset > perpendicularExtent + 5f)
+                        continue;
+
+                    Vector3 delta = bounds.center - transform.position;
+                    delta.y = 0f;
+                    if (delta.sqrMagnitude >= nearestSqr)
+                        continue;
+
+                    nearestSqr = delta.sqrMagnitude;
+                    matchingCrosswalk = bounds;
+                    foundCrosswalk = true;
+                }
+            }
+
+            if (foundCrosswalk)
+            {
+                float crossCoordinate = AxisCoordinate(matchingCrosswalk.center, runtimeAxis);
+                float crossExtent = AxisExtent(matchingCrosswalk, runtimeAxis);
+                runtimeStopCoordinate = crossCoordinate + runtimeApproachSign * (crossExtent + 0.9f);
+            }
+
+            ApplyVisualState(true);
+        }
+
         public TrafficLightState LightState
         {
             get
@@ -264,8 +393,9 @@ namespace Boulangerie3D.Traffic
                 float green = Mathf.Max(6f, greenDuration);
                 float yellow = Mathf.Max(1.5f, yellowDuration);
                 float clearance = Mathf.Clamp(allRedDuration, 0.5f, 3f);
-                float halfCycle = green + yellow + clearance;
-                float cycle = halfCycle * 2f;
+                float activeWindow = green + yellow + clearance;
+                float red = Mathf.Max(redDuration, activeWindow);
+                float cycle = activeWindow + red;
                 float phase = Mathf.Repeat(Time.time, cycle);
                 bool firstAxis = ResolveAxis() == TrafficLightAxis.X;
 
@@ -278,10 +408,10 @@ namespace Boulangerie3D.Traffic
                     return TrafficLightState.Red;
                 }
 
-                if (phase < halfCycle)
+                if (phase < activeWindow)
                     return TrafficLightState.Red;
 
-                float secondPhase = phase - halfCycle;
+                float secondPhase = phase - activeWindow;
                 if (secondPhase < green)
                     return TrafficLightState.Green;
                 if (secondPhase < green + yellow)
@@ -315,9 +445,17 @@ namespace Boulangerie3D.Traffic
 
         public bool Affects(Vector3 position, Vector3 travelDirection)
         {
+            return TryAffect(position, travelDirection, out _);
+        }
+
+        public bool TryAffect(Vector3 position, Vector3 travelDirection, out string reason)
+        {
             travelDirection.y = 0f;
             if (travelDirection.sqrMagnitude < 0.01f)
+            {
+                reason = "direction du véhicule trop faible";
                 return false;
+            }
             travelDirection.Normalize();
 
             if (hasRuntimeIntersection)
@@ -326,39 +464,84 @@ namespace Boulangerie3D.Traffic
                     ? TrafficLightAxis.X
                     : TrafficLightAxis.Z;
                 if (travelAxis != ResolveAxis())
+                {
+                    reason = $"axe opposé (véhicule={travelAxis}, feu={ResolveAxis()})";
                     return false;
+                }
 
                 if (!MatchesRuntimeApproachDirection(travelDirection))
+                {
+                    reason = "sens opposé à l'approche contrôlée";
                     return false;
+                }
 
                 float positionCoordinate = AxisCoordinate(position, runtimeAxis);
                 float centerCoordinate = AxisCoordinate(runtimeIntersectionCenter, runtimeAxis);
                 float approachSide = runtimeApproachSign *
                     (positionCoordinate - centerCoordinate);
                 if (approachSide < -1.5f)
+                {
+                    reason = $"mauvais côté ou carrefour déjà franchi ({approachSide:F2} m)";
                     return false;
+                }
 
                 float distanceToLine = DistanceAhead(position, travelDirection);
                 if (distanceToLine < -0.9f || distanceToLine > detectionDistance)
+                {
+                    reason = $"ligne hors portée ({distanceToLine:F2} m)";
                     return false;
+                }
 
                 float lateral = Mathf.Abs(
                     PerpendicularCoordinate(position, runtimeAxis) -
                     PerpendicularCoordinate(runtimeIntersectionCenter, runtimeAxis));
-                return lateral <= laneTolerance;
+                if (lateral > laneTolerance)
+                {
+                    reason = $"voie différente (écart latéral {lateral:F2} m)";
+                    return false;
+                }
+
+                reason = $"axe, côté et sens valides (ligne à {distanceToLine:F2} m)";
+                return true;
             }
 
             Vector3 controlForward = transform.forward;
             controlForward.y = 0f;
-            if (controlForward.sqrMagnitude > 0.01f &&
-                Mathf.Abs(Vector3.Dot(controlForward.normalized, travelDirection)) < 0.45f)
-                return false;
+            if (controlForward.sqrMagnitude > 0.01f)
+            {
+                float facing = Vector3.Dot(controlForward.normalized, travelDirection);
+                // The lamp faces approaching traffic. A positive dot means the car is
+                // travelling with the signal (away from the junction), so this is the
+                // opposite approach even when the pole is very close.
+                if (facing > -0.45f)
+                {
+                    reason = $"sens opposé au feu non raccordé (alignement {facing:F2})";
+                    return false;
+                }
+            }
 
             Vector3 delta = transform.position - position;
             delta.y = 0f;
             float ahead = Vector3.Dot(delta, travelDirection);
             float lateralFallback = (delta - travelDirection * ahead).magnitude;
-            return ahead >= -0.75f && ahead <= detectionDistance && lateralFallback <= laneTolerance;
+            if (ahead < -0.75f)
+            {
+                reason = "feu déjà dépassé";
+                return false;
+            }
+            if (ahead > detectionDistance)
+            {
+                reason = $"feu trop éloigné ({ahead:F2} m)";
+                return false;
+            }
+            if (lateralFallback > laneTolerance)
+            {
+                reason = $"voie différente (écart latéral {lateralFallback:F2} m)";
+                return false;
+            }
+
+            reason = $"association de secours valide (ligne à {ahead:F2} m)";
+            return true;
         }
 
         private bool MatchesRuntimeApproachDirection(Vector3 travelDirection)
