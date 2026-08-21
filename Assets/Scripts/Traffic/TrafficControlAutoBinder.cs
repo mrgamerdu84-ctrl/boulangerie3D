@@ -10,6 +10,12 @@ namespace Boulangerie3D.Traffic
     {
         private static bool bound;
 
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void ResetBinding()
+        {
+            bound = false;
+        }
+
         public static void BindSceneControls()
         {
             if (bound)
@@ -28,7 +34,9 @@ namespace Boulangerie3D.Traffic
             for (int i = 0; i < transforms.Length; i++)
             {
                 Transform current = transforms[i];
-                if (current == null || current.GetComponentInParent<TrafficControlPoint>() != null)
+                if (current == null ||
+                    current.GetComponentInParent<TrafficControlPoint>() != null ||
+                    current.GetComponentInChildren<TrafficControlPoint>(true) != null)
                     continue;
 
                 string normalized = Normalize(current.name);
@@ -38,6 +46,13 @@ namespace Boulangerie3D.Traffic
                     continue;
 
                 if (current.GetComponentInChildren<Renderer>(true) == null)
+                    continue;
+
+                // A name containing "traffic light" is not sufficient evidence that the
+                // object is a working signal. Creating a logical red light on a decorative
+                // or incomplete object makes vehicles stop at an apparently uncontrolled
+                // junction. Explicit TrafficControlPoint components remain authoritative.
+                if (isTrafficLight && !HasCompleteLampSet(current))
                     continue;
 
                 TrafficControlPoint control = current.gameObject.AddComponent<TrafficControlPoint>();
@@ -56,6 +71,44 @@ namespace Boulangerie3D.Traffic
             }
 
             Debug.Log($"[MobileTraffic] Raccordement automatique : {lightsAdded} feu(x), {stopsAdded} STOP ajouté(s)." );
+        }
+
+        private static bool HasCompleteLampSet(Transform root)
+        {
+            bool hasRed = false;
+            bool hasYellow = false;
+            bool hasGreen = false;
+            Renderer[] renderers = root.GetComponentsInChildren<Renderer>(true);
+
+            for (int i = 0; i < renderers.Length; i++)
+            {
+                Renderer renderer = renderers[i];
+                if (renderer == null)
+                    continue;
+
+                string key = Normalize(renderer.name);
+                Material[] materials = renderer.sharedMaterials;
+                for (int m = 0; m < materials.Length; m++)
+                    if (materials[m] != null)
+                        key += Normalize(materials[m].name);
+
+                hasRed |= ContainsAny(key, "red", "rouge");
+                hasYellow |= ContainsAny(key, "yellow", "amber", "orange", "jaune");
+                hasGreen |= ContainsAny(key, "green", "vert");
+
+                if (hasRed && hasYellow && hasGreen)
+                    return true;
+            }
+
+            return false;
+        }
+
+        private static bool ContainsAny(string value, params string[] tokens)
+        {
+            for (int i = 0; i < tokens.Length; i++)
+                if (value.Contains(tokens[i]))
+                    return true;
+            return false;
         }
 
         private static bool LooksLikeTrafficLight(string name)

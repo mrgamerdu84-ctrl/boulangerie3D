@@ -10,8 +10,15 @@ namespace Boulangerie3D.Traffic
 
         private TrafficVehicleAgent owner;
         private bool ownerEntered;
-        private float reservedAt;
+        private float ownerBestApproachDistance;
+        private float ownerLastProgressAt;
+        private TrafficVehicleAgent timedOutOwner;
+        private float timedOutOwnerUntil;
         private BoxCollider box;
+
+        private const float ProgressEpsilon = 0.1f;
+        private const float TakeoverMargin = 0.5f;
+        private const float RetryCooldown = 0.75f;
 
         public Bounds Bounds
         {
@@ -35,14 +42,26 @@ namespace Boulangerie3D.Traffic
 
             if (!owner.isActiveAndEnabled)
             {
-                ClearOwner();
+                ClearOwner(false);
                 return;
             }
 
-            // A reservation made on approach must not survive forever if the car
-            // never reaches the intersection (route change, obstacle, disabled car, etc.).
-            if (!ownerEntered && Time.time - reservedAt > approachReservationTimeout)
-                ClearOwner();
+            if (ownerEntered)
+                return;
+
+            float distance = DistanceToIntersection(owner);
+            if (distance + ProgressEpsilon < ownerBestApproachDistance)
+            {
+                ownerBestApproachDistance = distance;
+                ownerLastProgressAt = Time.time;
+                return;
+            }
+
+            // Expire only a reservation whose owner has stopped making progress.
+            // The timed-out owner gets a short cooldown so it cannot immediately
+            // reacquire the lock and starve every other approach forever.
+            if (Time.time - ownerLastProgressAt > approachReservationTimeout)
+                ClearOwner(true);
         }
 
         public bool TryReserve(TrafficVehicleAgent vehicle)
@@ -54,6 +73,18 @@ namespace Boulangerie3D.Traffic
                 return true;
 
             if (owner != null)
+            {
+                // Until a vehicle enters, priority belongs to the closest approach.
+                // A distant/off-screen vehicle must not hold a green junction hostage.
+                if (ownerEntered ||
+                    DistanceToIntersection(vehicle) + TakeoverMargin >= DistanceToIntersection(owner))
+                    return false;
+
+                AssignOwner(vehicle);
+                return true;
+            }
+
+            if (vehicle == timedOutOwner && Time.time < timedOutOwnerUntil)
                 return false;
 
             Bounds bounds = Bounds;
@@ -61,9 +92,7 @@ namespace Boulangerie3D.Traffic
                 bounds.SqrDistance(vehicle.transform.position) > maximumApproachDistance * maximumApproachDistance)
                 return false;
 
-            owner = vehicle;
-            ownerEntered = bounds.Contains(vehicle.transform.position);
-            reservedAt = Time.time;
+            AssignOwner(vehicle);
             return true;
         }
 
@@ -80,13 +109,28 @@ namespace Boulangerie3D.Traffic
             }
 
             if (ownerEntered)
-                ClearOwner();
+                ClearOwner(false);
         }
 
         public void Release(TrafficVehicleAgent vehicle)
         {
             if (owner == vehicle)
-                ClearOwner();
+                ClearOwner(false);
+        }
+
+        private float DistanceToIntersection(TrafficVehicleAgent vehicle)
+        {
+            return vehicle == null
+                ? float.MaxValue
+                : Mathf.Sqrt(Bounds.SqrDistance(vehicle.transform.position));
+        }
+
+        private void AssignOwner(TrafficVehicleAgent vehicle)
+        {
+            owner = vehicle;
+            ownerEntered = Bounds.Contains(vehicle.transform.position);
+            ownerBestApproachDistance = DistanceToIntersection(vehicle);
+            ownerLastProgressAt = Time.time;
         }
 
         private void EnsureCollider()
@@ -95,11 +139,18 @@ namespace Boulangerie3D.Traffic
                 box = GetComponent<BoxCollider>();
         }
 
-        private void ClearOwner()
+        private void ClearOwner(bool timedOut)
         {
+            if (timedOut)
+            {
+                timedOutOwner = owner;
+                timedOutOwnerUntil = Time.time + RetryCooldown;
+            }
+
             owner = null;
             ownerEntered = false;
-            reservedAt = 0f;
+            ownerBestApproachDistance = float.MaxValue;
+            ownerLastProgressAt = 0f;
         }
     }
 }

@@ -57,6 +57,9 @@ namespace Boulangerie3D.Traffic
         private int runtimeApproachSign;
         private float runtimeStopCoordinate;
         private string runtimeIntersectionName = string.Empty;
+        private bool hasRuntimeCrosswalk;
+        private Bounds runtimeCrosswalkBounds;
+        private Vector3 runtimeCrosswalkOuterEdge;
 
         public TrafficControlKind Kind => kind;
         public float DetectionDistance => detectionDistance;
@@ -70,6 +73,9 @@ namespace Boulangerie3D.Traffic
                 ? (runtimeAxis == TrafficLightAxis.X ? "-X vers +X" : "-Z vers +Z")
                 : "Non detecte";
         public string AssociatedIntersection => runtimeIntersectionName;
+        public bool UsesCrosswalkStopLine => hasRuntimeCrosswalk;
+        public Bounds DetectedCrosswalkBounds => runtimeCrosswalkBounds;
+        public Vector3 CrosswalkOuterEdgePosition => runtimeCrosswalkOuterEdge;
         public Vector3 LogicalStopLinePosition
         {
             get
@@ -152,6 +158,9 @@ namespace Boulangerie3D.Traffic
             runtimeApproachSign = 0;
             runtimeStopCoordinate = 0f;
             runtimeIntersectionName = string.Empty;
+            hasRuntimeCrosswalk = false;
+            runtimeCrosswalkBounds = new Bounds();
+            runtimeCrosswalkOuterEdge = Vector3.zero;
 
             if (intersectionBounds == null || intersectionBounds.Length == 0)
                 return;
@@ -293,8 +302,16 @@ namespace Boulangerie3D.Traffic
                     perpendicularDistance <= perpendicularExtent + 5f)
                 {
                     float crossExtent = AxisExtent(referenceCrosswalkBounds, runtimeAxis);
+                    float outerEdgeCoordinate = crossCoordinate + runtimeApproachSign * crossExtent;
+                    hasRuntimeCrosswalk = true;
+                    runtimeCrosswalkBounds = referenceCrosswalkBounds;
+                    runtimeCrosswalkOuterEdge = referenceCrosswalkBounds.center;
+                    if (runtimeAxis == TrafficLightAxis.X)
+                        runtimeCrosswalkOuterEdge.x = outerEdgeCoordinate;
+                    else
+                        runtimeCrosswalkOuterEdge.z = outerEdgeCoordinate;
                     runtimeStopCoordinate = crossCoordinate +
-                        runtimeApproachSign * (crossExtent + 0.9f);
+                        runtimeApproachSign * (crossExtent + 0.15f);
                 }
             }
 
@@ -313,6 +330,9 @@ namespace Boulangerie3D.Traffic
             runtimeApproachSign = 0;
             runtimeStopCoordinate = 0f;
             runtimeIntersectionName = string.Empty;
+            hasRuntimeCrosswalk = false;
+            runtimeCrosswalkBounds = new Bounds();
+            runtimeCrosswalkOuterEdge = Vector3.zero;
 
             if (forward.sqrMagnitude < 0.001f)
                 return;
@@ -335,7 +355,7 @@ namespace Boulangerie3D.Traffic
 
             Bounds matchingCrosswalk = new Bounds();
             bool foundCrosswalk = false;
-            float nearestSqr = float.MaxValue;
+            float bestCrosswalkScore = float.MaxValue;
             if (crosswalks != null)
             {
                 for (int i = 0; i < crosswalks.Length; i++)
@@ -362,12 +382,24 @@ namespace Boulangerie3D.Traffic
                         perpendicularOffset > perpendicularExtent + 5f)
                         continue;
 
-                    Vector3 delta = bounds.center - transform.position;
-                    delta.y = 0f;
-                    if (delta.sqrMagnitude >= nearestSqr)
+                    float axisExtent = AxisExtent(bounds, runtimeAxis);
+                    float perpendicularCrosswalkExtent = runtimeAxis == TrafficLightAxis.X
+                        ? bounds.extents.z
+                        : bounds.extents.x;
+                    // A crossing used by this approach must span across the driven axis.
+                    // Longitudinal zones belong to the perpendicular road and must not
+                    // become a stop line for this signal.
+                    if (perpendicularCrosswalkExtent < axisExtent * 1.15f)
                         continue;
 
-                    nearestSqr = delta.sqrMagnitude;
+                    float expectedApproachEdge = runtimeApproachSign * intersectionExtent;
+                    float shapePenalty = Mathf.Max(0f, axisExtent - perpendicularCrosswalkExtent);
+                    float score = Mathf.Abs(axisOffset - expectedApproachEdge) +
+                        perpendicularOffset * 0.25f + shapePenalty;
+                    if (score >= bestCrosswalkScore)
+                        continue;
+
+                    bestCrosswalkScore = score;
                     matchingCrosswalk = bounds;
                     foundCrosswalk = true;
                 }
@@ -377,7 +409,15 @@ namespace Boulangerie3D.Traffic
             {
                 float crossCoordinate = AxisCoordinate(matchingCrosswalk.center, runtimeAxis);
                 float crossExtent = AxisExtent(matchingCrosswalk, runtimeAxis);
-                runtimeStopCoordinate = crossCoordinate + runtimeApproachSign * (crossExtent + 0.9f);
+                float outerEdgeCoordinate = crossCoordinate + runtimeApproachSign * crossExtent;
+                hasRuntimeCrosswalk = true;
+                runtimeCrosswalkBounds = matchingCrosswalk;
+                runtimeCrosswalkOuterEdge = matchingCrosswalk.center;
+                if (runtimeAxis == TrafficLightAxis.X)
+                    runtimeCrosswalkOuterEdge.x = outerEdgeCoordinate;
+                else
+                    runtimeCrosswalkOuterEdge.z = outerEdgeCoordinate;
+                runtimeStopCoordinate = outerEdgeCoordinate + runtimeApproachSign * 0.15f;
             }
 
             ApplyVisualState(true);
@@ -450,6 +490,15 @@ namespace Boulangerie3D.Traffic
 
         public bool TryAffect(Vector3 position, Vector3 travelDirection, out string reason)
         {
+            return TryAffect(position, travelDirection, detectionDistance, out reason);
+        }
+
+        public bool TryAffect(
+            Vector3 position,
+            Vector3 travelDirection,
+            float requiredDetectionDistance,
+            out string reason)
+        {
             travelDirection.y = 0f;
             if (travelDirection.sqrMagnitude < 0.01f)
             {
@@ -486,7 +535,8 @@ namespace Boulangerie3D.Traffic
                 }
 
                 float distanceToLine = DistanceAhead(position, travelDirection);
-                if (distanceToLine < -0.9f || distanceToLine > detectionDistance)
+                float effectiveDetectionDistance = GetEffectiveDetectionDistance(requiredDetectionDistance);
+                if (distanceToLine < -0.9f || distanceToLine > effectiveDetectionDistance)
                 {
                     reason = $"ligne hors portée ({distanceToLine:F2} m)";
                     return false;
@@ -529,7 +579,8 @@ namespace Boulangerie3D.Traffic
                 reason = "feu déjà dépassé";
                 return false;
             }
-            if (ahead > detectionDistance)
+            float fallbackDetectionDistance = GetEffectiveDetectionDistance(requiredDetectionDistance);
+            if (ahead > fallbackDetectionDistance)
             {
                 reason = $"feu trop éloigné ({ahead:F2} m)";
                 return false;
@@ -542,6 +593,11 @@ namespace Boulangerie3D.Traffic
 
             reason = $"association de secours valide (ligne à {ahead:F2} m)";
             return true;
+        }
+
+        public float GetEffectiveDetectionDistance(float requiredDetectionDistance)
+        {
+            return Mathf.Max(detectionDistance, requiredDetectionDistance);
         }
 
         private bool MatchesRuntimeApproachDirection(Vector3 travelDirection)

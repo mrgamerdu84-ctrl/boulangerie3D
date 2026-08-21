@@ -26,6 +26,8 @@ namespace Boulangerie3D.Traffic.Editor
                 EditorGUILayout.TextField("Detected Direction", light.DetectedDirection);
                 EditorGUILayout.TextField("Intersection", light.AssociatedIntersection);
                 EditorGUILayout.Vector3Field("Logical Stop Line", light.LogicalStopLinePosition);
+                EditorGUILayout.Toggle("Uses Crosswalk", light.UsesCrosswalkStopLine);
+                EditorGUILayout.Vector3Field("Crosswalk Outer Edge", light.CrosswalkOuterEdgePosition);
             }
 
             if (GUILayout.Button("Refresh Detection"))

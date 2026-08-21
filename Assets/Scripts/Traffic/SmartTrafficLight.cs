@@ -98,6 +98,17 @@ namespace Boulangerie3D.Traffic
                 lateral * (LaneTolerance * 2f) + approach * controlledZoneLength + Vector3.up * 0.15f);
             Gizmos.DrawLine(stop, stop + towardJunction * 2f);
             Gizmos.DrawSphere(stop, 0.18f);
+
+            if (UsesCrosswalkStopLine)
+            {
+                Gizmos.color = new Color(1f, 0.75f, 0.05f, 0.9f);
+                Gizmos.DrawWireCube(DetectedCrosswalkBounds.center, DetectedCrosswalkBounds.size);
+
+                Gizmos.color = new Color(1f, 0.1f, 0.75f, 1f);
+                Vector3 edge = CrosswalkOuterEdgePosition;
+                Gizmos.DrawLine(edge - lateral * LaneTolerance, edge + lateral * LaneTolerance);
+                Gizmos.DrawSphere(edge, 0.14f);
+            }
         }
     }
 }
